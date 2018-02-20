@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.nv.baonk.organ.vo.Department"       alias="DepartmentVO"/>
+		<typeAlias type="com.nv.baonk.organ.vo.SimpleDepartment" alias="SimpleDepartmentVO"/>
+		<typeAlias type="com.nv.baonk.login.vo.Role"             alias="RoleVO"/>
+		<typeAlias type="com.nv.baonk.login.vo.User"             alias="UserVO"/>
+	</typeAliases>	
+	
+	<mappers>
+		<mapper resource="baonk/mybatis/Mapper_Department.xml"/>
+		<mapper resource="baonk/mybatis/Mapper_User.xml"/>
+		<mapper resource="baonk/mybatis/Mapper_Role.xml"/>
+	</mappers>
+</configuration>

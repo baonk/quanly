@@ -1,0 +1,32 @@
+.popup { background: url(/images/admin/organ/popup_bg.gif) #ffffff repeat-x left top; padding: 0; margin: 0; height: 40px; }
+body {font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; height: 100%; line-height: 1.4; color: #333; background-color: #fff; display: block; box-sizing: border-box; margin: 0; }
+.content { border: 1px solid #b6b6b6; margin: 5px 5px 0px 5px; width: 405px;}
+table, th, td {
+    border-collapse: collapse;
+    empty-cells: show;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-family: 'Gulim', 'arial', 'verdana';
+    border: 1px solid #b6b6b6;
+}
+
+.popup h1 {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #fff;
+    height: 40px;
+	margin: 0px;
+	padding-left: 20px;
+    line-height: 40px;
+}
+
+.baonBttn{white-space:nowrap; display:inline-block; cursor: pointer; height:25px; vertical-align:top; cursor:pointer; padding: 0px 5px;}
+.baonBttn span{display:inline-block; border:1px solid #d0d0d0; border-radius:3px; padding:0px 10px; height:25px; font:12px gulim; letter-spacing:-1; vertical-align:top; line-height:25px;}
+.baonBttn span:hover{color: #0B790E; text-decoration:none}
+
+.inputImage{float:left; display: block; width: 200px; margin: 0px 0px 0px 7px; height: 20px;}
+
+.baonBttn2{white-space:nowrap; display:inline-block; cursor: pointer; height:25px; width: 60px; vertical-align:top; cursor:pointer; padding: 0px 5px;}
+.baonBttn2 span{display:inline-block; border:1px solid #d0d0d0; border-radius:3px; padding:0px 10px; height:25px; width: 40px; font:12px gulim; letter-spacing:-1; vertical-align:top; line-height:25px; text-align: center;}
+.baonBttn2 :hover{color: #FFF; background: #004896}

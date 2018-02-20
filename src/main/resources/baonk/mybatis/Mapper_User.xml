@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nv.baonk.login.dao.UserMapper">
+	<resultMap type="RoleVO" id="roleVO">
+		<result property="roleid"         column="role_id"/>
+		<result property="rolename"       column="role_name"/>
+	</resultMap>
+	
+	<resultMap type="UserVO" id="userVO">
+		<result property="userid"         column="userid"/>
+		<result property="email"          column="email"/>
+		<result property="username"       column="name"/>
+		<result property="password"       column="password"/>
+		<result property="active"         column="active"/>
+		<result property="otherpos"       column="other_position"/>
+		<result property="phone"          column="phone_number"/>
+		<result property="image"          column="image"/>
+		<result property="birthday"       column="birthday"/>
+		<result property="lastlogin"      column="lastlogin"/>
+		<result property="companyid"      column="companyid"/>
+		<result property="companyname"    column="companyname"/>
+		<result property="tenantid"       column="tenantid"/>
+		<result property="departmentid"   column="departmentid"/>
+		<result property="departmentname" column="departmentname"/>
+		<result property="position"       column="position"/>
+		<result property="hobby"          column="hobby"/>
+		<result property="homephone"      column="homephone"/>
+		<result property="fax"            column="fax"/>
+		<result property="homeaddress"    column="homeaddress"/>
+		<result property="nickname"       column="nickname"/>
+		<result property="postcode"       column="postcode"/>
+		<result property="sex"            column="sex"/>
+		<result property="country"        column="country"/>
+		<collection property="roles"      resultMap="roleVO"/>
+	</resultMap>
+	
+	<sql id="selectUser">
+		select
+			u.userid,
+			u.email,
+			u.name,
+			u.password,
+			u.active,
+			u.other_position,
+			u.phone_number,
+			u.image,
+			u.birthday,
+			u.lastlogin,
+			u.companyid,
+			u.companyname,
+			u.tenantid,
+			u.departmentid,
+			u.departmentname,
+			u.position,
+			u.hobby,
+			u.homephone,
+			u.fax,
+			u.homeaddress,
+			u.nickname,
+			u.postcode,
+			u.sex,
+			u.country,
+			r.role_id,
+			r.role_name
+		from user u left join user_role s on u.userid = s.user_id and u.tenantid = s.tenant_id
+					left join role r on s.role_id = r.role_id
+	</sql>
+	
+	<select id="getTenantId" resultType="Integer">
+		select tenant_id from server where server_name = #{serverName}
+	</select>
+	
+	<select id="findUserByUseridAndTenantid" resultMap="userVO">
+		<include refid="selectUser"/>
+		where
+			u.userid = #{userId}
+		and
+			u.tenantid = #{tenantId}
+	</select>
+	
+	<select id="findUsersInAdminMode" resultMap="userVO">
+		<include refid="selectUser"/>
+		where
+			(departmentid = #{deptId} or other_position = #{deptId})
+		and
+			tenantid = #{tenantId}
+	</select>
+	
+	<select id="findAllCompanyEmployees" resultMap="userVO">
+		<include refid="selectUser"/>
+		where
+			companyid = #{companyId}
+		and
+			tenantid = #{tenantId}
+	</select>
+	
+	<select id="getAllUsersOfDepartment" resultMap="userVO">
+		<include refid="selectUser"/>
+		where
+			departmentid = #{deptId}
+		and
+			tenantid = #{tenantId}
+	</select>
+	
+	<select id="findUsersWithSearchOption" resultMap="userVO">
+		<include refid="selectUser"/>
+		where
+			tenant_id = #{tenantId}
+		<if test="columnName == 'name'">
+			and name like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'userid'">
+			and userid like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'position'">
+			and position like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'email'">
+			and email like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'phone_number'">
+			and phone_number like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'homephone'">
+			and homephone like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'nickname'">
+			and nickname like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'country'">
+			and country like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+		<if test="columnName == 'homeaddress'">
+			and homeaddress like concat(concat("%", #{searchStr}), "%") and departmentid = #{departId}
+		</if>
+	</select>
+	
+	<delete id="deleteUser" parameterType="userVO">
+		delete from user where userid = #{userid} and companyid = #{companyid} and tenantid = #{tenantid}
+	</delete>
+	
+	<insert id="saveUser" parameterType="userVO">
+		insert into user (
+			companyid,    tenantid,     userid,         active,         birthday,     departmentid,    position,       email,
+			image,        lastlogin,    other_position, password,       phone_number, name,            companyname,    departmentname,
+			hobby,        fax,          homephone,      homeaddress,    nickname,     postcode,        sex,            country
+		)
+		values (
+			#{companyid}, #{tenantid},  #{userid},      #{active},      #{birthday},  #{departmentid}, #{position},    #{email},
+			#{image},     #{lastlogin}, #{otherpos},    #{password},    #{phone},     #{username},     #{companyname}, #{departmentname},
+			#{hobby},     #{fax},       #{homephone},   #{homeaddress}, #{nickname},  #{postcode},     #{sex},         #{country}
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="userVO">
+		update user
+		set
+			active         = #{active},
+			birthday       = #{birthday},
+			departmentid   = #{departmentid},
+			position       = #{position},
+			email          = #{email},
+			image          = #{image},
+			lastlogin      = #{lastlogin},
+			other_position = #{otherpos},
+			password       = #{password},
+			phone_number   = #{phone},
+			name           = #{username},
+			companyname    = #{companyname},
+			departmentname = #{departmentname},
+			hobby          = #{hobby},
+			fax            = #{fax},
+			homephone      = #{homephone},
+			homeaddress    = #{homeaddress},
+			nickname       = #{nickname},
+			postcode       = #{postcode},
+			sex            = #{sex},
+			country        = #{country}
+		where
+			userid         = #{userid}
+		and
+			companyid      = #{companyid}
+		and
+			tenantid       = #{tenantid}
+	</update>
+	
+</mapper>

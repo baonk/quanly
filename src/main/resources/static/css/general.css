@@ -1,0 +1,305 @@
+.topmenu {
+	float: left;
+	display: block;
+	width: 70px; 
+	border-right: 1px solid #b6b6b6;
+	padding-left: 10px;
+}
+
+.leftbody ul {
+	list-style-type: none;	
+	padding: 0px 0px;
+	background-color: #ffffff;
+	cursor: pointer;
+}
+
+.leftbody li {
+	font-size: 12px;
+	border-bottom: 1px solid #dedede;
+	cursor: pointer;
+	font-weight: normal;	
+	padding: 8px 5px 7px 40px;	
+}
+.leftbody li span{
+	height: 14px;
+}
+
+
+#left{overflow:hidden;}
+
+#left h2{
+	font-size: 12px;
+	font-weight: bold;
+	margin: -1px 0px 0px 0px;
+	padding:0 0 0 19px;
+	border-top:1px solid #aeabab;
+	border-bottom: 1px solid #aeabab;
+	/* border-left: 1px solid #aeabab; */
+	cursor: pointer;
+	background: url('/images/left/01_minus.gif') no-repeat right 13px;
+	height:33px;
+	line-height:33px;
+	word-break:keep-all;
+	white-space:nowrap;
+	z-index:10;
+	background-color:#f8f8f8;
+}
+#left h2.on{
+	font-size: 12px;
+	font-weight: bold;
+	background: url('/images/left/01_plus.gif') no-repeat right 13px;
+	background-color:#ffffff;
+	color:#333333;
+}
+
+
+#left h3 {
+	display: block;
+	margin: -1px 0px 0px 0px;
+	padding:0 0 0 40px;
+	border-bottom: 0px;
+	cursor: pointer;
+	background: url('/images/kr/left/icon_setup.gif') no-repeat 20px 8px;
+	height:33px;
+	line-height:33px;
+	word-break:keep-all;
+	white-space:nowrap;
+	font-weight:normal;
+	border-top: 1px solid #aeabab;
+	font-size:12px;
+}
+
+#left h3.on {
+	font-weight:bold;
+	color:#333333;
+}
+
+#left ul.on {
+	display: block;	
+	list-style-type: none;
+	margin-bottom: 0px;
+	width: 100%;
+	/* border-left: 1px solid #aeabab;	 */
+}
+#left ul.off {
+	display: none;
+}
+
+#left ul li{
+	font-weight:normal;
+	color:#333333;
+	background: url('/images/left/left_dot02.gif') no-repeat 20px;
+	background-color: #ffffff;
+}
+
+#left ul li.on{
+	/* font-weight:bold; */
+	color: blue;
+}
+
+#left ul li.off{
+	font-weight:normal;	
+}
+
+#left ul li:hover{
+	font-weight:bold;	
+	background-color: #e6f7ff;
+}
+
+
+#left ol{margin:0}
+#left ol li, #left ol.on, #left ol.off{
+	list-style:url(/images/dot_09.gif) inside;
+	padding:5px 5px;
+	font-weight:normal;
+	border:none;
+}
+
+.left_admin {
+	background: url('/images/bg_main.gif') repeat-x;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: 'arial', 'gulim';
+	color: rgb(93,93,93);
+	text-align: left;
+	padding-left: 20px;	
+	line-height: 50px;
+	height: 51px;
+	/* border-left: 1px solid #aeabab; */
+}
+
+.exportBttn {font-size: 12px; font-weight: bold; float: right; right: 7px; color: #333; height: 20px; line-height: 15px; display: inline-block; white-space: nowrap; cursor: pointer; margin: 16px 10px 14px; }
+.exportBttn span{display:inline-block; border:1px solid #d0d0d0; border-radius:3px; padding:0px 10px; height:25px; width: 80px; font:12px gulim; letter-spacing:-1; vertical-align:top; line-height:25px; text-align: center;}
+.exportBttn :hover{color: #FFF; background: #004896}
+
+.rightbody {
+	background: url('/images/bg_main.gif') left top repeat-x;
+	padding: 0px 10px 0px 10px;
+	overflow-y: auto;
+}
+
+.rightbody th {	 
+    white-space: nowrap;
+    word-break: keep-all;
+    word-wrap: normal;
+    color: #666;
+    background-color: #f3f3f3;
+    border: 1px solid #b6b6b6;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 12px;
+    font-family: 'Gulim', 'arial', 'verdana';
+}
+
+.rightbody h1 {
+    font-size: 15px;
+    font-weight: bold;
+    padding-left: 15px;
+    margin: 16px 0px 14px;
+    left: 7px;
+    color: #333;
+    height: 20px;
+    line-height: 15px;
+    clear: both;
+    display: inline-block;    
+    white-space: nowrap;
+}
+
+input {
+	font-size: 12px;
+    font-family: 'Gulim', 'arial', 'verdana';
+    color: #393939;
+    text-decoration: none;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+    box-sizing: border-box;    
+}
+
+.imgbtn span {
+    display: inline-block;
+    background: url(/images/btn_middle_right.gif) top right;
+    background-repeat: no-repeat;
+    height: 20px;
+    padding-right: 12px;
+    font: 12px gulim;
+    letter-spacing: -1;
+    vertical-align: top;
+    line-height: 20px;
+    color: #393939;
+}
+
+.imgbtn {
+    white-space: nowrap;
+    display: inline-block;
+    background: url(/images/btn_middle_left.gif) top left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 20px;
+    padding-left: 12px;
+    margin-left: 10px;
+    vertical-align: top;    
+    margin-bottom: 2px;
+}
+
+table {	
+	display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+	clear: both;
+}
+
+.companyImg {
+	background: url("/images/admin/organ/ic-company.gif") no-repeat;
+	display: block;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	display: inline-block;
+  	width: 18px;
+  	height: 18px;
+  	padding-left: 18px;   
+  	cursor: pointer;
+}
+
+.deptImg {
+	background: url("/images/admin/organ/ic-open.gif") no-repeat;
+	display: block;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	display: inline-block;
+  	width: 18px;
+  	height: 18px;
+  	padding-left: 18px;   
+  	cursor: pointer;
+}
+
+.deptOn {
+	background: url("/images/admin/organ/minus_normal.gif") no-repeat;
+	display: block;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	cursor: pointer;
+  	display: inline-block;
+  	width: 18px; 
+  	height: 18px; 
+  	padding-left: 18px;    	
+}
+
+.deptOff {
+	background: url("/images/admin/organ/plus_normal.gif") no-repeat;
+	display: block;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	cursor: pointer;
+  	display: inline-block;
+  	width: 18px; 
+  	height: 18px; 
+  	padding-left: 18px;    	
+}
+
+.deptNone {	
+	display: block;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	cursor: pointer;
+  	display: inline-block;
+  	width: 18px; 
+  	height: 18px; 
+  	padding-left: 18px; 
+}
+
+#deptView span {
+	vertical-align:top;
+}
+
+.divTable {border: 1px solid #b6b6b6; height: 550px; width: 100%; font-family: Gulim, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; background-color: #FFFFFF;}
+.divTable2 {border: 1px solid #b6b6b6; height: 315px; width: 390px; font-family: Gulim, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; background-color: #FFFFFF; margin: 8px 4px 4px 4px;}
+.divTable3 {border: 1px solid #b6b6b6; height: auto; width: 620px; font-family: Gulim, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; background-color: #FFFFFF; margin: 20px 20px 4px 20px;}
+.divTable3 td{text-align: center; height: 25px;}
+.divTable3 th{background-color: #f8f8f8;}
+
+.tableTr {cursor: pointer;}
+.tableTr:hover{background-color: #B6B6B6;}
+
+.selectTr {cursor: pointer; background-color: #99ccff;}
+
+
+.changePasswdTbl {margin: 10px 5px 4px 5px; width: 390px; height: 80px; border: 1px solid #B6B6B6; border-collapse: collapse;}
+.changePasswdTbl tr {width: 390px;}
+
+.subMainTab {border-bottom: 1px solid #B6B6B6; vertical-align: middle; position: relative; height: 30px; background-color: #d9d9d9;}
+.subHeaderTab {position: absolute; display:inline; top: 7px;}
+
+.subDisplayTab {border-bottom: 1px solid #B6B6B6; vertical-align: middle; position: relative; height: 25px; font-weight: normal; cursor: pointer;}
+.subDisplayTabSelect {border-bottom: 1px solid #B6B6B6; vertical-align: middle; position: relative; height: 25px; font-weight: normal; cursor: pointer; background-color: #99ccff; }
+.subDisplayElmTab {position: absolute; display:inline; top: 5px;}
+
+.subOn {color: red;}
+.subOff {color: black;}
+
+.baonBttn{ white-space:nowrap; display:inline-block; cursor: pointer; height:25px; vertical-align:top; cursor:pointer;}
+.baonBttn span{ display:inline-block; border:1px solid #d0d0d0; border-radius:3px; padding:0px 10px; height:25px; font:12px gulim; letter-spacing:-1; vertical-align:top;	line-height:25px;}
+.passwdInput { width: 230px; height: 28px; padding: 0px; margin: 0px 5px 0px 5px; font-size: 12px; line-height: 28px; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 3px; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075); box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s; -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
+

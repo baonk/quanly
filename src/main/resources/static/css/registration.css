@@ -1,0 +1,41 @@
+.validation-message { font-style: normal; font-size: 12px; color: #FF1C19; }
+
+.mainTop { background: url(/images/admin/organ/popup_bg.gif) #ffffff repeat-x left top; padding: 0; margin: 0; height: 40px; }
+.mainMenu {	width: 100%; padding : 0; margin: 0; }
+
+#saveBttn {	position: absolute; left: 10px; top: 7px; height: 35px; }
+#saveBttn span { display: inline-block; background: url(/images/admin/organ/btn_popup_offright.gif) no-repeat top right; height: 28px; padding: 0px 8px 0px 0px; line-height: 28px; font-size: 12px; color: #fff; }
+#saveBttn ul li { display: block; float: left; margin: 0 2px 0 0px; background: url(/images/admin/organ/btn_popup_offleft.gif) no-repeat top left; height: 28px; padding: 0px 0px 0px 8px; vertical-align: top; cursor: pointer; vertical-align: middle; }
+#saveBttn ul li:hover, .closeBttn ul li:hover { background:url(/images/admin/organ/btn_popup_onleft.gif) no-repeat top left;color:#333;}
+#saveBttn ul li:hover span, .closeBttn ul li:hover span { background:url(/images/admin/organ/btn_popup_onright.gif) no-repeat top right;color:#333;}	
+
+.closeBttn { position: absolute; right: 10px; top: 7px; height: 35px; }
+.closeBttn span { display: inline-block; background: url(/images/admin/organ/btn_popup_offright.gif) no-repeat top right; height: 28px; padding: 0px 8px 0px 0px; line-height: 28px; font-size: 12px; color: #fff; }
+.closeBttn ul li { display: block; float: left; margin: 0 2px 0 0px; background: url(/images/admin/organ/btn_popup_offleft.gif) no-repeat top left; height: 28px; padding: 0px 0px 0px 8px; vertical-align: top; cursor: pointer; vertical-align: middle; }
+
+ul { margin-top: 0px; padding-left: 0px; display: block; list-style-type: none; }
+
+.tblUserInfo { width: 790px; clear: both; border: 1px solid #b6b6b6; margin: 0px 10px 0px 10px; padding: 0px; color: #393939; text-decoration: none; font-size: 12px; font-family: 'Gulim', 'arial', 'verdana'; border-spacing: 0px; border-collapse: collapse; }
+.tblOtherInfo {	width: 790px; clear: both; border: 1px solid #b6b6b6; margin: 20px 10px 10px 10px; padding: 0px; color: #393939; text-decoration: none; font-size: 12px; font-family: 'Gulim', 'arial', 'verdana'; border-spacing: 0px; border-collapse: collapse; }
+
+.warningText { margin: 10px 10px 0px 10px; text-decoration: none; font-size: 12px; font-family: 'Gulim', 'arial', 'verdana'; }
+
+th { width: 71px; text-align: center; white-space: nowrap; word-break: keep-all; word-wrap: normal; color: #666; background-color: #f3f3f3; border: 1px solid #b6b6b6; padding: 2px 10px; }
+td { padding: 0px 2px 0px 2px; background: #FFF; border: 1px solid #b6b6b6; height: 29px; word-break: break-all; font-size: 12px; font-family: 'Gulim', 'arial', 'verdana'; color: #393939; text-decoration: none; border-collapse: collapse; empty-cells: show; }
+
+.baonk { font-size: 12px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 3px; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075); box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s; -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
+.baonk-control-1 {width: 210px; height: 25px; padding: 0px 2px; margin: 0px 2px; }
+.baonk-control-2 { width: 148px; height: 20px; padding: 0px 2px; margin: 0px 2px; }
+.baonk-control-3 { width: 647px; height: 20px; padding: 0px 2px; margin: 0px 2px; }
+.baonk-control-4 { width: 100px; height: 20px; padding: 0px 0px 0px 2px; margin: 0px 0px 0px 2px; }
+.baonk-control-5 { height: 20px; padding: 0px 0px 0px 2px; margin: 0px 0px 0px 2px; }
+    
+body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; background-color: #fff; display: block; box-sizing: border-box; margin: 0; }
+html { font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0); font-family: sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+:after, :before  { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }  
+/*  .hasDatepicker   { position: relative; z-index: 9999 !important; }  */
+ input::-webkit-input-placeholder { text-align: left; }; 
+ input:-moz-placeholder { text-align: left; }
+
+ .text-danger{font-size: 10px; color: red; display:block;}

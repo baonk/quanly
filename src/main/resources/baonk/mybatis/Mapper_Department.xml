@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nv.baonk.organ.dao.DepartmentMapper">
+	<resultMap type="DepartmentVO" id="departmentVO">
+		<result property="departmentid"   column="department_id"/>
+		<result property="tenantid"       column="tenant_id"/>
+		<result property="departmentname" column="department_name"/>
+		<result property="departmentpath" column="department_path"/>
+		<result property="companyId"      column="company_id"/>
+		<result property="companyName"    column="company_name"/>
+		<result property="email"          column="email"/>
+		<result property="parentdept"     column="parent_department"/>
+	</resultMap>
+	
+	<resultMap type="SimpleDepartmentVO" id="simpleDepartmentVO">
+		<result property="departmentid"   column="department_id"/>
+		<result property="departmentname" column="department_name"/>
+		<result property="companyid"      column="company_id"/>
+		<result property="companyName"    column="company_name"/>
+	</resultMap>
+	
+	<select id="findByParentdeptAndTenantid" resultMap="departmentVO">
+		select * from department where parent_department = #{parentId} and tenant_id = #{tenantId}
+	</select>
+	
+	<select id="findByDepartmentidAndTenantid" resultMap="departmentVO">
+		select * from department where department_id = #{departId} and tenant_id = #{tenantId}
+	</select>
+	
+	<select id="findByCompanyIdAndTenantid" resultMap="departmentVO">
+		select * from department where company_id = #{companyId} and tenant_id = #{tenantId}
+	</select>
+	
+	<select id="findDeptsWithSearchOption" resultMap="departmentVO">
+		select * from department where 
+			tenant_id = #{tenantId}
+		<if test="columnName == 'department_name'">
+			and department_name like concat(concat("%", #{searchStr}), "%") and parent_department = #{departId}
+		</if>
+		<if test="columnName == 'department_id'">
+			and department_id like concat(concat("%", #{searchStr}), "%") and parent_department = #{departId}
+		</if>
+		<if test="columnName == 'email'">
+			and email like concat(concat("%", #{searchStr}), "%") and parent_department = #{departId}
+		</if>
+		<if test="columnName == 'company_id'">
+			and company_id like concat(concat("%", #{searchStr}), "%") and parent_department = #{departId}
+		</if>
+		<if test="columnName == 'company_name'">
+			and company_name like concat(concat("%", #{searchStr}), "%") and parent_department = #{departId}
+		</if>
+	</select>
+	
+	<select id="findCompanyWithSearchOption" resultMap="departmentVO">
+		select * from department where 
+			tenant_id = #{tenantId}
+		<if test="columnName == 'department_name'">
+			and department_name like concat(concat("%", #{searchStr}), "%") and parent_department = 'self'
+		</if>
+		<if test="columnName == 'department_id'">
+			and department_id like concat(concat("%", #{searchStr}), "%") and parent_department = 'self'
+		</if>
+		<if test="columnName == 'email'">
+			and email like concat(concat("%", #{searchStr}), "%") and parent_department = 'self'
+		</if>
+	</select>
+	
+	<select id="getDeptsBySearchingDeptName" resultMap="departmentVO">
+		select * from department where department_name like concat(concat("%", #{departName}), "%") and tenant_id = #{tenantId}
+	</select>
+	
+	<select id="getAllSimpleSubDepts" resultMap="simpleDepartmentVO">
+		select 
+			department_id,
+			department_name,
+			company_id,
+			company_name
+		from department 
+		where parent_department = #{parentId} and tenant_id = #{tenantId}
+	</select>
+	
+	<select id="getSimpleDeptList" resultMap="simpleDepartmentVO">
+		select 
+			department_id,
+			department_name,
+			company_id,
+			company_name
+		from department 
+		where department_id = #{departId} and tenant_id = #{tenantId}
+	</select>
+	
+	<delete id="deleteDept" parameterType="DepartmentVO">
+		delete from department where department_id = #{departmentid} and tenant_id = #{tenantid}
+	</delete>
+	
+	<insert id="insertDept" parameterType="DepartmentVO">
+		insert into department (
+			department_id,   tenant_id,   department_name,   department_path,   company_id,   company_name,   email,    parent_department
+		)
+		values (
+			#{departmentid}, #{tenantid}, #{departmentname}, #{departmentpath}, #{companyId}, #{companyName}, #{email}, #{parentdept}
+		)
+	</insert>
+	
+	<update id="updateDept" parameterType="DepartmentVO">
+		update department
+		set
+			department_name   = #{departmentname},
+			department_path   = #{departmentpath},
+			company_id        = #{companyId},
+			company_name      = #{companyName},
+			email             = #{email},
+			parent_department = #{parentdept}
+		where
+			department_id     = #{departmentid}
+		and
+			tenant_id         = #{tenantid}
+	</update>
+	
+</mapper>

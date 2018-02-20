@@ -1,0 +1,254 @@
+
+/************************************************** 
+---------------	 Normal css setting  --------------
+***************************************************/
+
+
+.admin-message-text {
+	font-style: normal;
+	font-size: 22px;
+	color: #004080;
+}
+
+strong:hover {
+	color: red;
+}
+
+.logout {
+	width: 45px;
+	margin: 0px 10px;
+	/* display:block; */
+	display: inline-block;
+	float: left;		
+	cursor: pointer;
+}
+
+.logout:hover {
+	color: blue;
+	cursor: pointer;
+}
+
+.welcome {
+	float: left; 
+	/* display:block;  */
+	display: inline-block;
+	/* border-right: 1px solid #003369;  */	
+	padding: 0px 10px;
+	background: url(/images/utmenu_bar.gif) no-repeat right 4px;
+}
+
+#admin:hover {
+	color: blue;
+	cursor: pointer;
+}
+
+#footer {
+	background-color: #076D8F;
+	color: #ffffff;
+	text-align: center;
+	padding: 15px;
+	margin: 0px 15px 10px 15px;
+	font-size: 90%;
+	clear: both;
+	white-space: nowrap;
+}
+
+html { height:100% }
+body { height:99%; width:100%;} 
+
+iframe {height:100%; width:100%;}
+
+.ifrmLeft {
+	noresize; 
+	border-left: 1px solid #aeabab;
+	border-right: 1px solid #aeabab;
+	border-bottom: 1px solid #aeabab;
+	border-top: none;
+}
+
+.ifrmRight {
+	noresize; 
+	border-left: none;
+	border-right: 1px solid #aeabab;
+	border-bottom: 1px solid #aeabab;
+	border-top: none;
+}
+
+/************************************************** 
+---------	Drop down menu css setting 	-----------
+***************************************************/
+.clearfix:after {
+    display:block;
+    clear:both;    
+} 
+
+.selectedLi {
+	text-decoration:none;
+    color:#be5b70;
+     background:#003369;
+}
+
+/*----- Menu Outline -----*/
+.menu-wrap {
+    width:100%;
+    box-shadow:0px 1px 3px rgba(0,0,0,0.2);    
+    background: url(/images/nav_bg.gif) repeat-x;    
+}
+ 
+.menu {
+    width:1000px;
+    margin:0px auto;
+}
+ 
+.menu li {
+    margin:0px;
+    list-style:none;
+    font-family:"Times New Roman", Georgia, Serif;
+}
+ 
+.menu a {
+    transition:all linear 0.15s;
+    color:#f5f5f5;
+}
+ 
+.menu li:hover > a, .menu > a {
+    text-decoration:none;
+    color:#be5b70;
+}
+ 
+.menu .arrow {
+    font-size:11px;
+    line-height:0%;   
+}
+ 
+/*----- Top Level -----*/
+.menu > ul > li {
+    float:left;
+    display:inline-block;
+    position:relative;
+    font-size:14px;
+}
+ 
+.menu > ul > li > a {
+    padding:5.8px 40px;
+    display:inline-block;
+    text-shadow:0px 1px 0px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+ 
+.menu > ul > li:hover > a, .menu > ul > a {
+    background:#003369;
+}
+ 
+/*----- Bottom Level -----*/
+.menu li:hover .sub-menu {
+    z-index:1;
+    opacity:1;
+}
+ 
+.sub-menu {
+    width:450px;
+    padding:0px 0px;    
+    position:absolute;
+    top:100%;
+    left:0px;
+    z-index:-1;
+    opacity:0;
+    transition:opacity linear 0.15s;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.2);
+    background:#003369;
+}
+ 
+.sub-menu li {
+    /* display:block; */    
+    display:inline-block;
+    font-size:12px;
+}
+ 
+.sub-menu li a {
+    padding:4px 10px;
+    display:block;
+    text-decoration: none;
+    color:#f5f5f5;
+}
+ 
+.sub-menu li a:hover, .sub-menu a {
+    background:#003369;
+    text-decoration: none;
+    color:#be5b70
+}
+
+.bnkMain {
+	display: flex;
+}
+
+.bnkMainLeft {min-width: 350px; width: 350px; background-color: #F8F8F8; min-height: 800px;}
+.bnkMainRight {min-width: 350px; width: 350px; background-color: #F8F8F8; min-height: 800px;}
+.bnkMainCenter {max-width: 1200px; flex-grow: 1; margin-left: 3px; margin-right: 3px; background-color: #fff; display: flex; flex-direction: column;}
+
+.newTopicPanel {height: 100px; background-color: #3f51b58f; display: flex;}
+.bnkTopicList {flex-grow: 1; background-color: #fff; display: flex; flex-direction: column;}
+.hotTopicList {flex-grow: 1;}
+
+.favouriteTopic{display: block; float: left; width: 32%; height: 100px; margin-left: 1%; background-color: #afcbe9;}
+.bnkFaTop {width: 100%; height: 100%;}
+.bnkTdFaTop {width: 75px; max-width: 75px; min-width: 75px;}
+.bnkUserImg {height: 50px; width: 50px; margin-left: 15px; margin-top: 5px;}
+.bnkNote { color: #a94442;}
+.topicTitle {font-size: 18px; line-height: 18px; height: 18px; text-align: center;}
+
+.topTopicMenu {
+	height: 40px;
+	background-color: #EAEAEA;
+	width: 100%;
+	/* line-height: 40px; */
+    vertical-align: middle;
+    display: flex;
+}
+
+.bnkTopicImg {height: 30px; width: 30px; margin: 3px 5px 5px 5px;}
+
+.bnkTopicImg2 {height: 35px; width: 35px; margin-top: 3px;}
+
+.bnkTopicWrite {display: flex; cursor: pointer;}
+.bnkTopicWrite span:hover {color: #FF6600;}
+
+.bnkPoll {display: flex; cursor: pointer;}
+.bnkPoll span:hover {color: #FF6600;}
+
+.bnkTdMain {background: #113676; color: #FFFFFF; font: bold 14px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; padding: 3px 10px 3px 10px; white-space: nowrap;}
+
+.bnkTdNorm {background: #F5F5FF; color: #000000; text-align: center; width: 25px; cursor: pointer;}
+
+.bnkTdNorm:hover {color: #FF6600;}
+.bnkTdLast:hover {color: #FF6600;}
+
+.bnkTdGotoTxt {margin-left: 5px;}
+.bnkTdGotoTxt:hover {color: #FF6600;}
+
+.bnkTdLast {background: #F5F5FF; color: #000000; text-align: center; width: 40px; cursor: pointer;}
+.bnkTdCurrent {background: #E1E4F2; color: #000000; text-align: center; width: 25px; font-weight: bold; cursor: default;}
+
+.bnkTblNav {height: 30px; width: 100%; background: #000000; color: #000000; border: 1px solid #B0BDC6; border-collapse: separate; border-spacing: 1px; }
+
+.bnkTdGoto {width: 60px; background: #E1E4F2; cursor: pointer;}
+
+.bnkJoin {color: #fff; font-size: 15px; height: 40px; line-height: 40px; cursor: pointer;}
+.bnkJoin:hover {color: #FF6600;}
+.bnkJoinImg {height: 30px; width: 30px; margin: 5px 5px; cursor: pointer;}
+.bnkTopicTime {font-size: 12px; color: #000; height: 40px; line-height: 40px; margin: 1px 0px 0px 5px;}
+.bnkTopicTime2 {font-size: 14px; height: 40px; line-height: 40px; margin-left: 10px; color: #fff; font-weight: bold;}
+.bnkTopicIcon {height: 35px; width: 35px; margin: 2.5px 2.5px;}
+.bnkTopicTopBar {height: 40px; background-color: #3498db; width: 100%; display: flex; position: relative;}
+.bnkTopicContent {margin: 5px 10px; white-space: prewrap; word-break: break-all;}
+.bnkTopicContent img {max-width: 500px; max-height: 500px; width: auto; height: auto;}
+.fImage {min-height: 35px; min-width: 35px; height: 35px; width:35px; border-radius: 50%; margin: 2.5px 0px 2.5px 5px; cursor: pointer;}
+.fTopicTitle {height: 40px; line-height: 40px; margin-left: 10px; margin-right: 5px; font-size: 14px; overflow: hidden; cursor: pointer; text-overflow: ellipsis; white-space: nowrap;}
+.fTopicTitle:hover {color: #FF6600;}
+.bnkfmore {height: 40px; line-height: 40px; margin-left: 140px; cursor: pointer; color: #306BFF;}
+.bnkfmore:hover {color: #FF6600;}
+.bnkGoBttn {font: 14px gulim; border: 1px solid #ccc; color: #666; border-radius: 3px; background-color: #fff; line-height: 14px; padding: 2px 5px; height: 20px; margin: 2px 5px 2px 0px;}
+.bnkGoBttn:hover { color: rgb(0, 72, 149); border-color: rgb(0, 72, 149);}
+
+
+
