@@ -19,7 +19,7 @@
 		<result property="departmentid"   column="department_id"/>
 		<result property="departmentname" column="department_name"/>
 		<result property="companyid"      column="company_id"/>
-		<result property="companyName"    column="company_name"/>
+		<result property="companyname"    column="company_name"/>
 	</resultMap>
 	
 	<select id="findByParentdeptAndTenantid" resultMap="departmentVO">

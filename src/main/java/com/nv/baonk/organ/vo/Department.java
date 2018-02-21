@@ -5,24 +5,15 @@ import java.util.List;
 
 public class Department implements Serializable {
 	private static final long serialVersionUID = 12235432564336L;
-
 	private String departmentid;
-	
 	private int tenantid;
-
 	private String departmentname;
-
 	private String departmentpath;
-
 	private String parentdept;
-
-	private String email;	
-
+	private String email;
 	private List<Department> subDept;
-
-	private String companyName;	
-
-	private String companyId;	
+	private String companyName;
+	private String companyId;
 	
 	public String getCompanyId() {
 		return companyId;
@@ -86,7 +77,7 @@ public class Department implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}	
+	}
 
 	public List<Department> getSubDept() {
 		return subDept;

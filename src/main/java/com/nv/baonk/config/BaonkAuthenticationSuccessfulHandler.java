@@ -37,15 +37,15 @@ public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticatio
 		logger.debug("--------Running in Authentication Successful Handler!--------");
 		
 		String serverName   = request.getServerName();
-		String userID       = authentication.getName();
+		String userId       = authentication.getName();
 		int tenantId        = userService.getTenantId(serverName);
-		User authUser       = userService.findUserByUseridAndTenantid(userID, tenantId);
+		User authUser       = userService.findUserByUseridAndTenantid(userId, tenantId);
 		String userPassword = authUser.getPassword();
 		
-		logger.debug("Check authUser: " + userID + " || TenantId : " + tenantId);
+		logger.debug("Check authUser: " + userId + " || TenantId : " + tenantId);
 		
 		//Create login cookie
-		String userInfo     = serverName + "+" + userID + "+" + userPassword + "+"  + tenantId;
+		String userInfo     = serverName + "+" + userId + "+" + userPassword + "+"  + tenantId;
 		String loginCookie  = "";
 		
 		try {
@@ -55,6 +55,10 @@ public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticatio
 			e.printStackTrace();
 		}
 		
+		//Set active status
+		userService.updateUserActive(userId, 1, authUser.getCompanyid(), tenantId);
+		
+		//Create login cookie
 		Cookie cookieID = new Cookie("loginCookie", loginCookie);
 		cookieID.setPath("/");
 		response.addCookie(cookieID);

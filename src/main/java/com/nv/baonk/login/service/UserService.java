@@ -17,4 +17,5 @@ public interface UserService {
 	public List<User> findAllCompanyEmployees(String companyId, int tenantId);
 	public List<User> getAllUsersOfDepartment(String deptID, int tenantId);
 	public List<User> findUsersWithSearchOption(String deptID, String sStr, String field, int tenantId);
+	public void updateUserActive(String userId, int activeStatus, String companyId, int tenantId);
 }

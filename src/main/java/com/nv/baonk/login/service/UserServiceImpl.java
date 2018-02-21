@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> findUsersWithSearchOption(String deptID, String sStr, String field, int tenantId) {
 		return userMapper.findUsersWithSearchOption(deptID, sStr, field, tenantId);
 	}
+
+	@Override
+	public void updateUserActive(String userId, int activeStatus, String companyId, int tenantId) {
+		userMapper.updateUserActive(userId, activeStatus, companyId, tenantId);
+	}
 }

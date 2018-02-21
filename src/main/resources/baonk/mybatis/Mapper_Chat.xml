@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nv.baonk.chat.dao.ChatMapper">
+	<resultMap type="ChatUserVO" id="chatUserVO">
+		<result property="userId"         column="user_id"  />
+		<result property="image"          column="image"    />
+		<result property="userName"       column="user_name"/>
+		<result property="active"         column="active"   />
+	</resultMap>
+	
+	<select id="getChatUserList" resultMap="chatUserVO">
+		select
+			(case when f.userId = u.userid then f.userId else f.friendId end) as user_id,
+			u.image as image,
+			u.name as user_name,
+			u.active as active
+		from
+			friends f left join  user u on 
+											(
+												(u.userid = f.userId and f.friendId = #{userId}) 
+											or
+												(u.userid = f.friendId and f.userId = #{userId})
+											)
+										and u.tenantid = f.tenantId
+		where
+			u.tenantid = #{tenantId}
+		order by
+			u.name ASC
+		limit
+			#{startPoint}, #{blockSize}
+	</select>
+	
+	<select id="getChatUserListCnt" resultType="Integer">
+		select
+			count(*)
+		from
+			friends f left join  user u on 
+											(
+												(u.userid = f.userId and f.friendId = #{userId}) 
+											or
+												(u.userid = f.friendId and f.userId = #{userId})
+											)
+										and u.tenantid = f.tenantId
+		where
+			u.tenantid = #{tenantId}
+	</select>
+	
+</mapper>

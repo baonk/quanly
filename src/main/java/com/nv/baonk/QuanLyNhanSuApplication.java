@@ -9,7 +9,6 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 @SpringBootApplication
 @EnableEncryptableProperties
 public class QuanLyNhanSuApplication {
-    
 	public static void main(String[] args) {
 		SpringApplication.run(QuanLyNhanSuApplication.class, args);
 	}

@@ -1,4 +1,4 @@
-package com.nv.baonk.vo;
+package com.nv.baonk.chat.vo;
 
 import java.io.Serializable;
 

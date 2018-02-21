@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -10,63 +10,67 @@
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
 	<link rel="stylesheet" type="text/css" href="/css/chat/chat.css" />
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
-	<script	src="/js/jquery/jquery.min.js"></script>
-	<script	src="/js/bootstrap.min.js"></script>
-	<script	src="/js/chat/chat.js"></script>
-	<script type="text/javascript">			
+	<script src="/js/jquery/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/chat/chat.js"></script>
+	<script type="text/javascript">
 		var currentUser = "<c:out value="${userId}" />";
-	    
-	    window.onload = function () {
+		var blockSize   = 10;
+		var currentPage = null;
+		var totalRows   = null;
+		var totalPages  = null;
+		var strLang39   = "<spring:message code = 'chat.t3'/>";
+		var strLang40   = "<spring:message code = 'chat.t4'/>";
+
+		window.onload = function () {
+			search_Set("1");
+			
 			var stickerElmt = document.getElementById("bnkEmoticon");
 			stickerElmt.onclick = function() {addSticker()};
 			
 			var chatAreaElmt = document.getElementById("bnkCmtTxt");
 			chatAreaElmt.onfocus= function() {checkSticker()};
 		}
-	    
-	    function checkSticker() {
-	    	if (document.getElementById("emoticonPanel").style.display != "none") {
-	    		document.getElementById("emoticonPanel").style.display = "none";
-	    		document.getElementById("bnkEmoticon").style.backgroundImage = "url('/images/chat/emo3.png')";
-	    	}
-	    }
+
+		function checkSticker() {
+			if (document.getElementById("emoticonPanel").style.display != "none") {
+				document.getElementById("emoticonPanel").style.display       = "none";
+				document.getElementById("bnkEmoticon").style.backgroundImage = "url('/images/chat/emo3.png')";
+			}
+		}
 
 	</script>
 	
 </head>
 
 <body>
-	<div class="container">	
+	<div class="container">
 		<div class="bnkpanel-group">
-			<div class="bnkpanel bnkpanel-primary">				
+			<div class="bnkpanel bnkpanel-primary">
 				<div class="bnkContainer">
-				    <div class="bnk bnkLeft">
-				    	<div class="leftHeaderMenu">
-					    	<div class="settingImg"><img src="/images/chat/sss.png" class ="chatImage" /></div>
-					    	<div class="txtMessage">Chat list</div>
-					    	<div class="editImg"><img src="/images/chat/34.png" class ="chatImage" /></div>
-				    	</div>
-				    	<div class="bnkContent">
-				    		<div class="bnkSearch">
-				    			<img src="/images/chat/search.png" style="height: 20px; width: 20px; margin: 2px;"/>
-				    			<input class="bnkbttnSearch" placeholder="Search chat history"  maxlength="50"; autocomplete="off"/>
-				    		</div>
-				    		<div class="bnkHistory">
-				    			<c:forEach var="onlineList" items="${onlUserList}">
-				    				<div class="bnkChatLine">
-				    					<img src="" class="chatImage" />
-				    					<c:out value="${onlineList.username}"/>
-				    				</div>
-				    			</c:forEach>
-				    		</div>
-				    	</div>	
+					<div class="bnk bnkLeft">
+						<div class="leftHeaderMenu">
+							<div class="settingImg"><img src="/images/chat/sss.png" class ="chatImage2" /></div>
+							<div class="txtMessage" id="totalCnt"></div>
+							<div class="editImg"><img src="/images/chat/34.png" class ="chatImage2" /></div>
+						</div>
+						<div class="bnkContent">
+							<div class="bnkSearch">
+								<img src="/images/chat/search.png" style="height: 20px; width: 20px; margin: 2px;"/>
+								<input class="bnkbttnSearch" placeholder="Search chat history" maxlength="50" autocomplete="off"/>
+							</div>
+							<div class="bnkHistory">
+								<div class="bnkChatUsers" id="listChatUsers"></div>
+							</div>
+						</div>
+						<div id="tblPageRayer"></div>
 					</div>
-				    <div class="bnk bnkCenter" style="margin-left: 0px; margin-right: 0px;">				    	
-			    		<div class="centerHeaderMenu">
-			    		</div>
-				    	<div class="bnkChatContent" id="bnkChatTbl">		
-				    		
-				    		<!-- <ol class="chat">
+					<div class="bnk bnkCenter" style="margin-left: 0px; margin-right: 0px;">
+						<div class="centerHeaderMenu">
+						</div>
+						<div class="bnkChatContent" id="bnkChatTbl">
+							
+							<!-- <ol class="chat">
 				    			<li class="self">
 							      <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
 							      <div class="msg">
@@ -239,7 +243,7 @@
 																		</c:when>
 																		<c:otherwise>
 																			<img src="${list.fileSrc}" style="height: 60px; width: 60px; cursor: pointer;">
-																			<span _path=<c:out value="${list.filePath}"/>> 
+																			<span _path=<c:out value="${list.filePath}"/>>
 																				<c:out value="${list.fileName}"/>
 																			</span>
 																		</c:otherwise>
@@ -247,22 +251,21 @@
 																</c:otherwise>
 															</c:choose>
 														</c:otherwise>
-													</c:choose>									
+													</c:choose>
 												</div>
-											</div>									
+											</div>
 										</div>
-										
 										
 										<c:if test="${list.clusterId > currCluster}">
 											<c:set var="currCluster" value="${list.clusterId}"/>
-										</c:if>								
+										</c:if>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<div style="min-height: 500px;" id="bnkNoData">No data</div>
 								</c:otherwise>
 							</c:choose>
-																			    
+							
 							<div class="typezone">
 								<div id="emoticonPanel" style="display: none; width:400px; height:350px; margin-top: -350px;margin-left: 0px; background-color: #fff; border:1px solid #3399ff; position: absolute;">
 									<div id="emoticonGroup" style="display:block;width:100%; height: 45px;background-color: #fff; border-bottom:1px solid #3399ff;;">
@@ -271,21 +274,21 @@
 										</div>
 										<div id="_ePresentors" style="float:left; display:block; ">
 											<div id="_group1" style="background-color: #d9d9d9; float:left; display: block; height:44px; width:44px; cursor: pointer; " onclick="changeStickerGroup(this);"><img src="/images/emoticon/hackerGirl.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-											<div id="_group2" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/crayonShin.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<div id="_group2" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/crayonShin.png"  height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
 											<div id="_group3" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/catEmoticon.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-											<div id="_group4" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/student.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-											<div id="_group5" style="float:left; display: block; height:44px; width:44px; cursor: pointer; " onclick="changeStickerGroup(this);"><img src="/images/emoticon/hackerGirl.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-											<div id="_group6" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/crayonShin.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<div id="_group4" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/student.png"     height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<div id="_group5" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/bee.gif"         height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<div id="_group6" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/crayonShin.png"  height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
 											<div id="_group7" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/catEmoticon.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-											<div id="_group8" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/student.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
-									  		<!-- <div id="_group9" style="float:left; display: block; height:44px; width:44px; cursor: pointer; " onclick="changeStickerGroup(this);"><img src="/images/emoticon/hackerGirl.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<div id="_group8" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/student.png"     height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
+											<!-- <div id="_group9" style="float:left; display: block; height:44px; width:44px; cursor: pointer; " onclick="changeStickerGroup(this);"><img src="/images/emoticon/hackerGirl.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div>
 											<div id="_group10" style="float:left; display: block; height:44px; width:44px; cursor: pointer;" onclick="changeStickerGroup(this);"><img src="/images/emoticon/crayonShin.png" height=40 width=40 style="padding-top: 2px; padding-left: 2px; "></div> --> 
 										</div>
 										<div style="float: right; display:block; height: 45px;">
 											<img id="nextEmoticon" src="/images/next1.png" height=40 width=30 style="padding-top: 3px; ">
 										</div>
 									</div>	
-				    				<div id="emoticonList" style="display:inline-block;width:100%; background-color: #fff;">
+									<div id="emoticonList" style="display:inline-block;width:100%; background-color: #fff;">
 										<div id="_listG1" style="height:300px; overflow-y: auto; overflow-x: hidden; display: block;">
 											<table id="_listG1Table">
 												<tr style="width:100%; height:45px;">
@@ -512,47 +515,106 @@
 												</tr>
 											</table>
 										</div>
+										<div id="_listG5" style="height:300px; overflow-y: auto; overflow-x: hidden; display: none;">
+											<table id="_listG5Table">
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/1.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/2.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/3.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/4.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/5.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/6.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/7.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/8.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/9.gif);"  onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/10.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/11.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/12.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/13.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/14.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/15.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/16.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/17.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/18.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/19.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/20.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/21.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/22.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/23.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/24.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/25.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/26.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/27.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/28.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/29.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/30.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/31.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/32.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/33.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/34.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/35.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/36.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/37.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/38.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/39.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/40.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/41.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/42.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/43.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/44.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/45.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/46.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/47.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/48.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+												<tr style="width:100%; height:45px;">
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/49.gif);" onclick="displaySticker(this);"></div></td>
+													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/50.gif);" onclick="displaySticker(this);"></div></td>
+												</tr>
+											</table>
+										</div>
 									</div>
-								</div>							
+								</div>
 								<div class="emojis" id="bnkEmoticon"></div>
-								<div class="bnkUploadFile" "style="border-right: 1px solid #DDD; height: 50px; width: 50px;">
+								<div class="bnkUploadFile" style="border-right: 1px solid #DDD; height: 50px; width: 50px;">
 									<!-- <img id="bnkFile" src="/images/chat/upload.png" style="display: block; height: 30px; width: 35px; cursor: pointer; margin-top: 11px; padding-left: 5px;" onclick=""> -->
 								</div>
 								<div class="bnkChatInput">
-									<textarea id="bnkCmtTxt" type="text" placeholder="Say something" style="overflow: hidden;"  onkeypress="check_key(event);"></textarea>									
-								</div>																
-								<div class="send"></div>								
-							</div>					
+									<textarea id="bnkCmtTxt" placeholder="Say something" style="overflow: hidden;" onkeypress="check_key(event);"></textarea>
+								</div>
+								<div class="send"></div>
+							</div>
 							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-
-				    	</div>				    	    	
+						</div>
 					</div>
-				    <div class="bnk bnkRight">right</div>
-				</div>		
+					<div class="bnk bnkRight">right</div>
+				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
+	<script type="text/javascript" src="/js/chat/chatNavi.js"></script>
+	<script type="text/javascript" src="/js/chat/chatUsers.js"></script>
 </body>
 </html>

@@ -8,11 +8,13 @@
 		<typeAlias type="com.nv.baonk.organ.vo.SimpleDepartment" alias="SimpleDepartmentVO"/>
 		<typeAlias type="com.nv.baonk.login.vo.Role"             alias="RoleVO"/>
 		<typeAlias type="com.nv.baonk.login.vo.User"             alias="UserVO"/>
+		<typeAlias type="com.nv.baonk.chat.vo.ChatUserVO"        alias="ChatUserVO"/>
 	</typeAliases>	
 	
 	<mappers>
 		<mapper resource="baonk/mybatis/Mapper_Department.xml"/>
 		<mapper resource="baonk/mybatis/Mapper_User.xml"/>
 		<mapper resource="baonk/mybatis/Mapper_Role.xml"/>
+		<mapper resource="baonk/mybatis/Mapper_Chat.xml"/>
 	</mappers>
 </configuration>
