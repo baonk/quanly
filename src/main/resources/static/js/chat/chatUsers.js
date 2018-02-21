@@ -49,11 +49,53 @@ function displayUserList(result) {
 			
 			divLine.setAttribute("class", "userChat");
 			divLine.setAttribute("userId", result[i]["userId"]);
+			divLine.setAttribute("userName", result[i]["userName"]);
+			divLine.onclick = function() {displayConversation(this);};
 			
 			divLine.appendChild(imgElmt1);
 			divLine.appendChild(divElmt);
 			divLine.appendChild(imgElmt2);
 			userList.appendChild(divLine);
+			
+			if (i == 0) {
+				displayConversation(divLine);
+			}
 		}
 	}
 }
+
+function displayConversation(obj) {
+	var userId   = obj.getAttribute("userId");
+	var userName = obj.getAttribute("userName");
+	
+	document.getElementById("chatHeader").textContent = userName;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

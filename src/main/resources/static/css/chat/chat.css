@@ -38,7 +38,7 @@
 
 .leftHeaderMenu {display: flex; width: 100%; height: 50px; padding: 8px; border-bottom: 1px solid #3399ff;}
 
-.centerHeaderMenu {min-height: 50px; padding: 8px; border-bottom: 1px solid #3399ff;}
+.centerHeaderMenu {min-height: 50px; padding: 8px; border-bottom: 1px solid #3399ff; text-align: center; line-height: 33px; font-size: 16px; font-weight: bold;}
 
 .txtMessage {text-align: center; flex-grow: 1; color: black; line-height: 34px; font-size: 14px; font-weight: bold; font-family: Helvetica Neue, Segoe UI, Helvetica, Arial, sans-serif;}
 
@@ -49,6 +49,16 @@
 .bnkbttnSearch {height: 25px; border: 0; margin: 0; outline: 0; padding: 0; width: 100%; flex-grow: 1; background-color: #f6f7f9;}
 
 .bnkChatUsers {display:flex; flex-direction: column;}
+
+.bnkNoTalk {height: 100px; background-color: #fff; display: flex;}
+
+.letChatInfo{flex-grow: 1; display: flex; flex-direction: column;}
+
+.letChatInfo .txt {font-size: 16px; font-weight: bold; margin-top: 10px}
+
+.letChatInfo .description {font-size: 12px; color: rgba(0, 0, 0, .40);}
+
+.startTalk {height: 80px; width: 80px; border-radius: 50%; margin: 10px;}
 
 .emoticon {background-size: 85px; background-repeat: no-repeat; background-position: center; background-clip: border-box; transition: background-size 0.2s; -webkit-transition: background-size 0.2s; transition-timing-function: cubic-bezier(.07,1.41,.82,1.41); display: inline-block; width: 100px; height: 100px; text-decoration: none; cursor: pointer;}
 

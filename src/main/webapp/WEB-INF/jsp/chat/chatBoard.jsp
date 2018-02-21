@@ -66,8 +66,7 @@
 						<div id="tblPageRayer"></div>
 					</div>
 					<div class="bnk bnkCenter" style="margin-left: 0px; margin-right: 0px;">
-						<div class="centerHeaderMenu">
-						</div>
+						<div class="centerHeaderMenu" id="chatHeader"></div>
 						<div class="bnkChatContent" id="bnkChatTbl">
 							
 							<!-- <ol class="chat">
@@ -262,7 +261,15 @@
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
-									<div style="min-height: 500px;" id="bnkNoData">No data</div>
+									<div class="bnkNoTalk" id="bnkNoData">
+										<img src="/images/chat/converstation.png" class="startTalk">
+										<div class="letChatInfo">
+											<span class="txt">Let's chat</span>
+											<span>Nguyen Khac Bao</span>
+											<span class="description">System Developer at HuongNgai coporation</span>
+											<span class="description">Last active 2018-08-12</span>
+										</div>
+									</div>
 								</c:otherwise>
 							</c:choose>
 							

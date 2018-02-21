@@ -48,4 +48,33 @@
 			u.tenantid = #{tenantId}
 	</select>
 	
+	<select id="getAllChatUsers" resultMap="chatUserVO">
+		select
+			u.userid as user_id,
+			u.image as image,
+			u.name as user_name,
+			u.active as active
+		from
+			user u
+		where
+			u.tenantid = #{tenantId}
+		and
+			u.userid  != #{userId}
+		order by
+			u.name ASC
+		limit
+			#{startPoint}, #{blockSize}
+	</select>
+	
+	<select id="getAllChatUsersCnt" resultType="Integer">
+		select
+			count(*)
+		from
+			user u
+		where
+			u.tenantid = #{tenantId}
+		and
+			u.userid  != #{userId}
+	</select>
+	
 </mapper>

@@ -9,4 +9,6 @@ import com.nv.baonk.chat.vo.ChatUserVO;
 public interface ChatMapper {
 	public List<ChatUserVO> getChatUserList(@Param("userId") String userId, @Param("startPoint") int startPoint, @Param("blockSize") int blockSize, @Param("tenantId") int tenantId);
 	public int getChatUserListCnt(@Param("userId") String userId, @Param("tenantId") int tenantId);
+	public List<ChatUserVO> getAllChatUsers(@Param("userId") String userId, @Param("startPoint") int startPoint, @Param("blockSize") int blockSize, @Param("tenantId") int tenantId);
+	public int getAllChatUsersCnt(@Param("userId") String userId, @Param("tenantId") int tenantId);
 }

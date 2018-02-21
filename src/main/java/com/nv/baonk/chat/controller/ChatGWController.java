@@ -12,11 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.nv.baonk.chat.service.ChatService;
 import com.nv.baonk.chat.vo.ChatUserVO;
+import com.nv.baonk.login.service.UserService;
+import com.nv.baonk.login.vo.Role;
+import com.nv.baonk.login.vo.User;
 
 @RestController
 public class ChatGWController {
 	@Autowired
 	private ChatService chatSerivce;
+	
+	@Autowired
+	private UserService userService;
 	
 	private final Logger logger = LoggerFactory.getLogger(ChatGWController.class);
 	
@@ -29,7 +35,8 @@ public class ChatGWController {
 		int blockSize     = 10;
 		int totalRows     = 0;
 		int totalPages    = 0;
-		int startPoint    = (currIdx - 1) * blockSize;
+		int isAdmin       = 0;
+		int startPoint    = (currIdx - 1) * blockSize;		
 		JSONObject result = new JSONObject();
 		
 		logger.debug("UserId: " + userId + " || tenantId: " + tenantId);
@@ -42,8 +49,17 @@ public class ChatGWController {
 		}
 		
 		try {
-			List<ChatUserVO> listUser = chatSerivce.getChatUserList(userId, startPoint, blockSize, tenantId);
-			totalRows                 = chatSerivce.getChatUserListCnt(userId, tenantId);
+			User user = userService.findUserByUseridAndTenantid(userId, tenantId);
+			
+			for (Role role: user.getRoles()) {
+				if(role.getRolename().equals("ADMIN")) {
+					isAdmin = 1;
+					break;
+				}
+			}
+			
+			List<ChatUserVO> listUser = (isAdmin == 1) ? chatSerivce.getAllChatUsers(userId, startPoint, blockSize, tenantId) : chatSerivce.getChatUserList(userId, startPoint, blockSize, tenantId);
+			totalRows                 = (isAdmin == 1) ? chatSerivce.getAllChatUsersCnt(userId, tenantId)                     : chatSerivce.getChatUserListCnt(userId, tenantId);
 			totalPages                = (totalRows + blockSize - 1)/blockSize;
 			
 			result.put("status", "ok");
