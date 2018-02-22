@@ -67,6 +67,7 @@ function displayUserList(result) {
 function displayConversation(obj) {
 	var userId   = obj.getAttribute("userId");
 	var userName = obj.getAttribute("userName");
+	chatUser     = userId;
 	
 	document.getElementById("chatHeader").textContent = userName;
 }

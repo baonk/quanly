@@ -47,7 +47,7 @@ public class BaonkLogoutSuccessfulHandler implements ApplicationListener<Session
 		
 		for (SecurityContext securityContext : lstSecurityContext) {
 			user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-			logger.debug("UserID1: " + user.getUsername());
+			logger.debug("UserID: " + user.getUsername());
 		}
 	}
 }

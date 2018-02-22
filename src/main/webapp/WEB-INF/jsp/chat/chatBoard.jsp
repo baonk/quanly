@@ -13,6 +13,8 @@
 	<script src="/js/jquery/jquery.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/chat/chat.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script type="text/javascript">
 		var currentUser = "<c:out value="${userId}" />";
 		var blockSize   = 10;
@@ -21,8 +23,11 @@
 		var totalPages  = null;
 		var strLang39   = "<spring:message code = 'chat.t3'/>";
 		var strLang40   = "<spring:message code = 'chat.t4'/>";
+		var stompClient = null;
+		var chatUser    = null;
 
 		window.onload = function () {
+			connect();
 			search_Set("1");
 			
 			var stickerElmt = document.getElementById("bnkEmoticon");
@@ -39,6 +44,15 @@
 			}
 		}
 
+		function connect() {
+			var socket = new SockJS("/wsbaonk?token=" + currentUser);
+			stompClient = Stomp.over(socket);
+			stompClient.connect({}, function(frame) {
+				stompClient.subscribe('/user/queue/reply', function(data){
+					alert(data.body);
+				});
+			});
+		}
 	</script>
 	
 </head>
@@ -52,7 +66,7 @@
 						<div class="leftHeaderMenu">
 							<div class="settingImg"><img src="/images/chat/sss.png" class ="chatImage2" /></div>
 							<div class="txtMessage" id="totalCnt"></div>
-							<div class="editImg"><img src="/images/chat/34.png" class ="chatImage2" /></div>
+							<div class="editImg"><img src="/images/chat/group2.png" class ="chatImage2" /></div>
 						</div>
 						<div class="bnkContent">
 							<div class="bnkSearch">

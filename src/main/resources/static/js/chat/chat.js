@@ -12,6 +12,23 @@ function check_key(event) {
 
 function sendMessage() {
 	var textValue = document.getElementById("bnkCmtTxt").value;
+	
+	var chatMessage = {
+		sender: currentUser,
+		receive: chatUser,
+		content: textValue,
+		type: 'CHAT'
+	};
+	
+	stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
+	
+	document.getElementById("bnkCmtTxt").value = "";
+	document.getElementById("bnkCmtTxt").blur();
+
+}
+
+/*function sendMessage() {
+	var textValue = document.getElementById("bnkCmtTxt").value;
 	document.getElementById("bnkCmtTxt").value = "";
 	document.getElementById("bnkCmtTxt").blur();
 	
@@ -30,7 +47,7 @@ function sendMessage() {
 			showSelfChat1(textValue, 1);
 		}
 	}
-}
+}*/
 
 function displaySticker(obj) {
 	var style     = obj.currentStyle || window.getComputedStyle(obj, false);
