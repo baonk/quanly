@@ -1,7 +1,6 @@
 package com.nv.baonk.chat.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,8 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import com.nv.baonk.chat.vo.ChatMessageTest;
+import com.nv.baonk.chat.vo.ChatMessageSimple;
 import com.nv.baonk.common.CommonUtil;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.User;
@@ -151,8 +148,8 @@ public class ChatController {
 	}
 	
 	@MessageMapping("/sendMessage")
-	public void greeting(@Payload ChatMessageTest message, Principal principal) throws Exception {
-		String receiverId = message.getReceive();
+	public void greeting(@Payload ChatMessageSimple message, Principal principal) throws Exception {
+		String receiverId = message.getReceiver();
 		messageTemplate.convertAndSendToUser(receiverId, "/queue/reply", message);
 		messageTemplate.convertAndSendToUser(principal.getName(), "/queue/reply", message);
 	}
