@@ -11,6 +11,23 @@
 		<result property="active"         column="active"   />
 	</resultMap>
 	
+	<resultMap type="ChatMessageVO" id="chatMessageVO">
+		<result property="messageId"      column="message_id"   />
+		<result property="clusterId"      column="cluster_id"   />
+		<result property="content"        column="content"      />
+		<result property="fileName"       column="file_name"    />
+		<result property="filePath"       column="file_path"    />
+		<result property="senderId"       column="sender_id"    />
+		<result property="senderName"     column="sender_name"  />
+		<result property="receiverId"     column="receiver_id"  />
+		<result property="receiverType"   column="receiver_type"/>
+		<result property="createdTime"    column="created_time" />
+		<result property="userImage"      column="user_image"   />
+		<result property="tenantId"       column="tenant_id"    />
+		<result property="contType"       column="cont_type"    />
+		<result property="messageType"    column="message_type" />
+	</resultMap>
+	
 	<select id="getChatUserList" resultMap="chatUserVO">
 		select
 			(case when f.userId = u.userid then f.userId else f.friendId end) as user_id,
@@ -76,5 +93,46 @@
 		and
 			u.userid  != #{userId}
 	</select>
+	
+	<select id="getPersonalMessages" resultMap="chatMessageVO">
+		select
+			*
+		from
+			chatmessage
+		where
+			(
+					(sender_id = #{senderId}   and receiver_id = #{receiverId})
+				or 
+					(sender_id = #{receiverId} and receiver_id = #{senderId})
+			)
+		and
+			receiver_type = 1
+		and
+			tenant_id = #{tenantId}
+		order by
+			cast(message_id as int) desc
+		limit
+			0, #{endPoint}
+	</select>
+	
+	<select id="getMaxMessageId" resultType="String">
+		select
+			ifnull(max(convert(message_id, unsigned integer)), -1) as maxno
+		from
+			chatmessage
+		where
+			tenant_id = #{tenantId}
+	</select>
+	
+	<insert id="saveMessage" parameterType="ChatMessageVO">
+		insert into chatmessage (
+			message_id,    tenant_id,     message_type,      cluster_id,        receiver_id,      receiver_type,     sender_id,
+			content,       cont_type,     file_name,         file_path,         created_time,     user_image,        sender_name
+		)
+		values (
+			#{messageId},  #{tenantId},   #{messageType},    #{clusterId},      #{receiverId},    #{receiverType},   #{senderId},
+			#{content},    #{contType},   #{fileName},       #{filePath},       #{createdTime},   #{userImage},      #{senderName}
+		)
+	</insert>
 	
 </mapper>

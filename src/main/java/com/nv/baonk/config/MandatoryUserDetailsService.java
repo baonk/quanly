@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.Role;
 import com.nv.baonk.login.vo.User;
+import com.nv.baonk.login.vo.UserBnk;
 
 @Component
 public class MandatoryUserDetailsService implements UserDetailsService{
@@ -53,7 +54,7 @@ public class MandatoryUserDetailsService implements UserDetailsService{
 			}
 			
 			user.setRoles(userRoles);
-			return new org.springframework.security.core.userdetails.User(user.getUserid(), user.getPassword(), getAuthorities(user));
+			return new UserBnk(user.getUserid(), user.getPassword(), getAuthorities(user), tenantId);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

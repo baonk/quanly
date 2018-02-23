@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.nv.baonk.chat.dao.ChatMapper;
+import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.chat.vo.ChatUserVO;
 
 @Service("ChatService")
@@ -30,6 +31,21 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public int getAllChatUsersCnt(String userId, int tenantId) throws Exception {
 		return chatMapper.getAllChatUsersCnt(userId, tenantId);
+	}
+
+	@Override
+	public List<ChatMessageVO> getPersonalMessages(String userId, String friendId, int endPoint, int tenantId) throws Exception {
+		return chatMapper.getPersonalMessages(userId, friendId, endPoint, tenantId);
+	}
+
+	@Override
+	public String getMaxMessageId(int tenantId) throws Exception {
+		return chatMapper.getMaxMessageId(tenantId);
+	}
+
+	@Override
+	public void saveMessage(ChatMessageVO messageVO) throws Exception {
+		chatMapper.saveMessage(messageVO);
 	}
 
 }

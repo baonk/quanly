@@ -9,6 +9,7 @@
 		<typeAlias type="com.nv.baonk.login.vo.Role"             alias="RoleVO"/>
 		<typeAlias type="com.nv.baonk.login.vo.User"             alias="UserVO"/>
 		<typeAlias type="com.nv.baonk.chat.vo.ChatUserVO"        alias="ChatUserVO"/>
+		<typeAlias type="com.nv.baonk.chat.vo.ChatMessageVO"     alias="ChatMessageVO"/>
 	</typeAliases>	
 	
 	<mappers>

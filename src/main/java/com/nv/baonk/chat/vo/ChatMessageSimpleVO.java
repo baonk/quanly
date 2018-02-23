@@ -1,16 +1,19 @@
 package com.nv.baonk.chat.vo;
 
-public class ChatMessageSimple {
+public class ChatMessageSimpleVO {
 	private MessageType type;
 	private ContentType contentType;
 	private String content;
+	private String fileName;
+	private String filePath;
 	private String sender;
 	private String receiver;
+	private int tenantId;
+	private ReceiverType receiverType;
 	private int clusterId;
-	
-	public enum MessageType {CHAT, JOIN, LEAVE}
-	
-	public enum ContentType {TEXT, IMAGE, STICKER}
+	public enum MessageType  {CHAT, JOIN, LEAVE}
+	public enum ContentType  {TEXT, IMAGE, STICKER, FILE}
+	public enum ReceiverType {SINGLE, GROUP}
 
 	public MessageType getType() {
 		return type;
@@ -59,5 +62,37 @@ public class ChatMessageSimple {
 	public void setClusterId(int clusterId) {
 		this.clusterId = clusterId;
 	}
-	
+
+	public ReceiverType getReceiverType() {
+		return receiverType;
+	}
+
+	public void setReceiverType(ReceiverType receiverType) {
+		this.receiverType = receiverType;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public int getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(int tenantId) {
+		this.tenantId = tenantId;
+	}
+
 }

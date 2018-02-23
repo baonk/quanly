@@ -2,13 +2,11 @@ package com.nv.baonk.chat.vo;
 
 import java.io.Serializable;
 
-public class ChatMessage implements Serializable{
+public class ChatMessageVO implements Serializable{
 	private static final long serialVersionUID = 1234564573457L;
-	private int messageId;
+	private String messageId;
 	private int clusterId;
-	private String textMessage;
-	private String stickerSrc;
-	private String fileSrc;
+	private String content;
 	private String fileName;
 	private String filePath;
 	private String senderId;
@@ -17,12 +15,15 @@ public class ChatMessage implements Serializable{
 	private String createdTime;
 	private String userImage;
 	private int tenantId;
+	private int receiverType;
+	private int contType;
+	private int messageType;
 	
-	public int getMessageId() {
+	public String getMessageId() {
 		return messageId;
 	}
 
-	public void setMessageId(int messageId) {
+	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
 
@@ -32,30 +33,6 @@ public class ChatMessage implements Serializable{
 
 	public void setClusterId(int clusterId) {
 		this.clusterId = clusterId;
-	}
-
-	public String getTextMessage() {
-		return textMessage;
-	}
-
-	public void setTextMessage(String textMessage) {
-		this.textMessage = textMessage;
-	}
-
-	public String getStickerSrc() {
-		return stickerSrc;
-	}
-
-	public void setStickerSrc(String stickerSrc) {
-		this.stickerSrc = stickerSrc;
-	}
-
-	public String getFileSrc() {
-		return fileSrc;
-	}
-
-	public void setFileSrc(String fileSrc) {
-		this.fileSrc = fileSrc;
 	}
 
 	public String getFileName() {
@@ -125,4 +102,37 @@ public class ChatMessage implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getReceiverType() {
+		return receiverType;
+	}
+
+	public void setReceiverType(int receiverType) {
+		this.receiverType = receiverType;
+	}
+
+	public int getContType() {
+		return contType;
+	}
+
+	public void setContType(int contType) {
+		this.contType = contType;
+	}
+
+	public int getMessageType() {
+		return messageType;
+	}
+
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
+
 }

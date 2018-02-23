@@ -22,6 +22,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -58,6 +59,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import com.nv.baonk.chat.service.ChatService;
+import com.nv.baonk.chat.vo.ChatMessageSimpleVO;
+import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.User;
 import com.nv.baonk.organ.vo.Department;
@@ -76,6 +80,9 @@ public class CommonUtil {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ChatService chatSerivce;
 
 	/* File separator setting*/
 	public String separator            = "/";
@@ -955,4 +962,64 @@ public class CommonUtil {
 		}
 	}
 
+	public ChatMessageVO getChatMessage(ChatMessageSimpleVO message) throws Exception {
+		int tenantId               = message.getTenantId();
+		User sender                = userService.findUserByUseridAndTenantid(message.getSender(), tenantId);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date                  = new Date();
+		String time                = formatter.format(date);
+		ChatMessageVO messageVO    = new ChatMessageVO();
+		
+		messageVO.setClusterId(message.getClusterId());
+		messageVO.setContent(message.getContent());
+		messageVO.setReceiverId(message.getReceiver());
+		messageVO.setFileName(message.getFileName());
+		messageVO.setFilePath(message.getFilePath());
+		messageVO.setSenderId(message.getSender());
+		messageVO.setTenantId(tenantId);
+		messageVO.setUserImage(sender.getImage());
+		messageVO.setSenderName(sender.getUsername());
+		messageVO.setMessageId(getMaxMessageId(tenantId));
+		messageVO.setCreatedTime(time);
+		
+		if (message.getContentType().equals(ChatMessageSimpleVO.ContentType.TEXT)) {
+			messageVO.setContType(1);
+		}
+		else if (message.getContentType().equals(ChatMessageSimpleVO.ContentType.STICKER)) {
+			messageVO.setContType(2);
+		}
+		else if (message.getContentType().equals(ChatMessageSimpleVO.ContentType.IMAGE)) {
+			messageVO.setContType(3);
+		}
+		else if (message.getContentType().equals(ChatMessageSimpleVO.ContentType.FILE)) {
+			messageVO.setContType(4);
+		}
+		
+		if (message.getReceiverType().equals(ChatMessageSimpleVO.ReceiverType.SINGLE)) {
+			messageVO.setReceiverType(1);
+		}
+		else if (message.getReceiverType().equals(ChatMessageSimpleVO.ReceiverType.GROUP)) {
+			messageVO.setReceiverType(2);
+		}
+		
+		if (message.getType().equals(ChatMessageSimpleVO.MessageType.CHAT)) {
+			messageVO.setMessageType(1);
+		}
+		else if (message.getType().equals(ChatMessageSimpleVO.MessageType.JOIN)) {
+			messageVO.setMessageType(2);
+		}
+		else if (message.getType().equals(ChatMessageSimpleVO.MessageType.LEAVE)) {
+			messageVO.setMessageType(3);
+		}
+		
+		return messageVO;
+	}
+
+	private String getMaxMessageId(int tenantId) throws Exception {
+		int currentMaxFileId = -1;
+		String result        = chatSerivce.getMaxMessageId(tenantId);
+		currentMaxFileId     = result.equals("")        ? 1 : Integer.parseInt(result);
+		currentMaxFileId     = (currentMaxFileId == -1) ? 1 : (currentMaxFileId + 1);
+		return Integer.toString(currentMaxFileId);
+	}
 }

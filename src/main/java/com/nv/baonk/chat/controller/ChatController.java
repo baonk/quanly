@@ -1,6 +1,5 @@
 package com.nv.baonk.chat.controller;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,9 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.nv.baonk.chat.vo.ChatMessageSimple;
 import com.nv.baonk.common.CommonUtil;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.User;
@@ -53,9 +48,6 @@ public class ChatController {
 	@Autowired
 	private BCryptPasswordEncoder BCryptPass;
 	
-	@Autowired
-	private SimpMessagingTemplate messageTemplate;
-	
 	private final Logger logger    = LoggerFactory.getLogger(ChatController.class);
 	
 	@Value("${chat.gw}")
@@ -65,14 +57,9 @@ public class ChatController {
 	public String chatBoard(@CookieValue("loginCookie")String loginCookie, Model model, HttpServletRequest request) {
 		User user = commonUtil.getUserInfo(loginCookie);
 		
-		//Get list of current Online users
+/*		//Get list of current Online users
 		List<String> loggedInUserList = getUsersFromSessionRegistry();
-		
-		logger.debug("List of loggedin User: " + loggedInUserList.size());
-		
-		for(String test: loggedInUserList) {
-			logger.debug("Test: " + test);
-		}
+
 		
 		//Get all friends of current user
 		List<User> listOfOnlineUser = userService.findAllCompanyEmployees(user.getCompanyid(), user.getTenantid());
@@ -91,11 +78,11 @@ public class ChatController {
 		
 		for (User u : listOfOnlineUser) {
 			logger.debug("User Name: " + u.getUsername());
-		}
+		}*/
 		
 		model.addAttribute("hasChat", 0);
 		model.addAttribute("userId", user.getUserid());
-		model.addAttribute("onlUserList", listOfOnlineUser);
+		model.addAttribute("tenantId", user.getTenantid());
 		return "/chat/chatBoard";
 	}
 
@@ -115,7 +102,7 @@ public class ChatController {
 	}
 	
 	@RequestMapping(value="/chat/getUserList.do", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getFileList(@CookieValue("loginCookie") String loginCookie, HttpServletRequest request, Model model, HttpServletResponse response) throws Exception {
+	public @ResponseBody Map<String,Object> getUserList(@CookieValue("loginCookie") String loginCookie, HttpServletRequest request, Model model, HttpServletResponse response) throws Exception {
 		Map<String,Object> map = new HashMap<>();
 		User userInfo          = commonUtil.getUserInfo(loginCookie);
 		String currIdx         = request.getParameter("currentIndex");
@@ -147,11 +134,38 @@ public class ChatController {
 		return map;
 	}
 	
-	@MessageMapping("/sendMessage")
-	public void greeting(@Payload ChatMessageSimple message, Principal principal) throws Exception {
-		String receiverId = message.getReceiver();
-		messageTemplate.convertAndSendToUser(receiverId, "/queue/reply", message);
-		messageTemplate.convertAndSendToUser(principal.getName(), "/queue/reply", message);
+	@RequestMapping(value="/chat/getMessages.do", method = RequestMethod.POST)
+	public @ResponseBody Map<String,Object> getMessageList(@CookieValue("loginCookie") String loginCookie, HttpServletRequest request, Model model, HttpServletResponse response) throws Exception {
+		Map<String,Object> map = new HashMap<>();
+		User userInfo          = commonUtil.getUserInfo(loginCookie);
+		String friend          = request.getParameter("friend");
+		String currPage        = request.getParameter("page");
+		String mode            = request.getParameter("type");
+		String url             = chatgwURL + "/message/" + userInfo.getUserid() + "/friend/" + friend + "/mode/" + mode;
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+		
+		UriComponentsBuilder builder  = UriComponentsBuilder.fromHttpUrl(url)
+										.queryParam("tenantId", userInfo.getTenantid())
+										.queryParam("currPage", currPage);
+		RestTemplate rest             = new RestTemplate();
+		ResponseEntity<String> result = rest.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity, String.class);
+		
+		JSONParser jp                 = new JSONParser();
+		JSONObject resultBody         = (JSONObject) jp.parse(result.getBody());
+		String status                 = resultBody.get("status").toString();
+		
+		if (status.equals("ok")) {
+			JSONObject friendObj  = (JSONObject) resultBody.get("friend");
+			JSONArray messageList = (JSONArray) resultBody.get("data");
+			map.put("messageList", messageList);
+			map.put("friendInfo", friendObj);
+		}
+		
+		return map;
 	}
+	
 	
 }

@@ -20,7 +20,7 @@ import com.nv.baonk.security.SecurityConfigBaonk;
 @Component
 public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	private final Logger logger = LoggerFactory.getLogger(BaonkAuthenticationSuccessfulHandler.class);
-	public final Integer SESSION_TIMEOUT_IN_SECONDS = 60 * 60;
+	public final Integer SESSION_TIMEOUT_IN_SECONDS = 1 * 60;
 	
 	@Autowired
 	private SecurityConfigBaonk securityConfBaonk;
@@ -56,7 +56,8 @@ public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticatio
 		}
 		
 		//Set active status
-		userService.updateUserActive(userId, 1, authUser.getCompanyid(), tenantId);
+		authUser.setActive(1);
+		userService.updateUser(authUser);
 		
 		//Create login cookie
 		Cookie cookieID = new Cookie("loginCookie", loginCookie);

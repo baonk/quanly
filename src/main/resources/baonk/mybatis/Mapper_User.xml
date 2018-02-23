@@ -187,16 +187,4 @@
 			tenantid       = #{tenantid}
 	</update>
 	
-	<update id="updateUserActive">
-		update user
-		set
-			active         = #{status}
-		where
-			userid         = #{userId}
-		and
-			companyid      = #{companyId}
-		and
-			tenantid       = #{tenantId}
-	</update>
-	
 </mapper>

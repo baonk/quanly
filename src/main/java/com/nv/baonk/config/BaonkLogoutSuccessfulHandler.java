@@ -2,9 +2,13 @@ package com.nv.baonk.config;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +17,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.User;
+import com.nv.baonk.login.vo.UserBnk;
 
 @Component
-public class BaonkLogoutSuccessfulHandler implements ApplicationListener<SessionDestroyedEvent>, LogoutSuccessHandler {
+public class BaonkLogoutSuccessfulHandler implements ApplicationListener<SessionDestroyedEvent>, LogoutSuccessHandler{
+	private final Logger logger = LoggerFactory.getLogger(BaonkLogoutSuccessfulHandler.class);
+
 	@Autowired
 	private UserService userService;
-	
-	private final Logger logger = LoggerFactory.getLogger(BaonkLogoutSuccessfulHandler.class);
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -34,7 +41,8 @@ public class BaonkLogoutSuccessfulHandler implements ApplicationListener<Session
 		User authUser       = userService.findUserByUseridAndTenantid(userId, tenantId);
 		
 		//Set active status
-		userService.updateUserActive(userId, 0, authUser.getCompanyid(), tenantId);
+		authUser.setActive(0);
+		userService.updateUser(authUser);
 		
 		request.getSession().setAttribute("previous_page", "");
 		response.sendRedirect("login");
@@ -43,11 +51,15 @@ public class BaonkLogoutSuccessfulHandler implements ApplicationListener<Session
 	@Override
 	public void onApplicationEvent(SessionDestroyedEvent event) {
 		List<SecurityContext> lstSecurityContext = event.getSecurityContexts();
-		UserDetails user;
 		
 		for (SecurityContext securityContext : lstSecurityContext) {
-			user = (UserDetails) securityContext.getAuthentication().getPrincipal();
-			logger.debug("UserID: " + user.getUsername());
+			UserBnk user  = (UserBnk) securityContext.getAuthentication().getPrincipal();
+			User authUser = userService.findUserByUseridAndTenantid(user.getUsername(), user.getTenant());
+			logger.debug("UserID: " + user.getUsername() + " || TenantId: " + user.getTenant());
+			
+			//Set active status
+			authUser.setActive(0);
+			userService.updateUser(authUser);
 		}
 	}
 }

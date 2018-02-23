@@ -14,10 +14,16 @@ function sendMessage() {
 	var textValue = document.getElementById("bnkCmtTxt").value;
 	
 	var chatMessage = {
-		sender: currentUser,
-		receive: chatUser,
-		content: textValue,
-		type: 'CHAT'
+		sender       : currentUser,
+		receiver     : chatUser,
+		content      : textValue,
+		contentType  : 'TEXT',
+		fileName     : '',
+		filePath     : '',
+		clusterId    : messageIdx,
+		receiverType : conType,
+		type         : 'CHAT',
+		tenantId     : tenantId
 	};
 	
 	stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
@@ -25,6 +31,69 @@ function sendMessage() {
 	document.getElementById("bnkCmtTxt").value = "";
 	document.getElementById("bnkCmtTxt").blur();
 
+}
+
+function displayMessage(result, friendInf) {
+	var chatTbl = document.getElementById("bnkChatTbl");
+	while (chatTbl.hasChildNodes()) {
+		chatTbl.removeChild(chatTbl.lastChild);
+	}
+	
+	if (result == null || result.length == 0) {
+		var divElmt   = document.createElement("div");
+		var chImgElmt = document.createElement("img");
+		var chDivElmt = document.createElement("div");
+		var spanElmt1 = document.createElement("span");
+		var spanElmt2 = document.createElement("span");
+		var spanElmt3 = document.createElement("span");
+		var spanElmt4 = document.createElement("span");
+		
+		chImgElmt.setAttribute("class", "startTalk");
+		chImgElmt.src = "/images/chat/converstation.png";
+		spanElmt1.setAttribute("class", "txt");
+		spanElmt1.textContent = "Let's chat";
+		spanElmt2.textContent = friendInf["username"];
+		spanElmt3.setAttribute("class", "description");
+		spanElmt3.textContent = friendInf["position"] + " at " + friendInf["companyname"];
+		spanElmt4.setAttribute("class", "description");
+		spanElmt4.textContent = "Last active " + friendInf["lastlogin"];
+		
+		chDivElmt.setAttribute("class", "letChatInfo");
+		chDivElmt.appendChild(spanElmt1);
+		chDivElmt.appendChild(spanElmt2);
+		chDivElmt.appendChild(spanElmt3);
+		chDivElmt.appendChild(spanElmt4);
+		
+		divElmt.setAttribute("class", "bnkNoTalk");
+		divElmt.setAttribute("id", "bnkNoData");
+		divElmt.appendChild(chImgElmt);
+		divElmt.appendChild(chDivElmt);
+		
+		chatTbl.appendChild(divElmt);
+	}
+	else {
+		for (var i = result.length - 1; i >= 0; i--) {
+			var type        = result[i]["contType"];
+			var sender      = result[i]["senderId"];
+			
+			if (sender == currentUser) {
+				if (lastChattedUser == currentUser) {
+					showChat2(result[i], type);
+				}
+				else {
+					showChat1(result[i], type, "self");
+				}
+			}
+			else {
+				if (lastChattedUser == chatUser) {
+					showChat2(result[i], type);
+				}
+				else {
+					showChat1(result[i], type, "other");
+				}
+			}
+		}
+	}
 }
 
 /*function sendMessage() {
@@ -89,32 +158,33 @@ function getChatTime() {
 //Type = 1: text
 //Type = 2: sticker
 //Type = 3: image
-function showSelfChat1(textValue, type) {
+//Type = 4: file
+function showChat1(jsonMessage, type, chatType) {
 	var bnkChatTblElmt    = document.getElementById("bnkChatTbl");
 	var mainOlElmt        = null;
 	var mainLiElmt        = document.createElement("li");
-	mainLiElmt.className  = "self";
+	mainLiElmt.className  = chatType;
 	
 	//process user's avatar
 	var avatarDivElmt = document.createElement("div");
 	var avatarImgElmt = document.createElement("img");
 	avatarDivElmt.className = "avatar";
 	avatarImgElmt.setAttribute('draggable', false);
-	avatarImgElmt.src       = "https://vi.gravatar.com/userimage/119146805/dcb3ad95a00ec4a4284c36d7c401a156.png"; //tam thoi
+	avatarImgElmt.src       = jsonMessage["userImage"]; //tam thoi
 	avatarDivElmt.appendChild(avatarImgElmt);
 	
 	//process messageContent
-	var contentDivElmt        = document.createElement("div");
-	var timeElmt              = document.createElement("span");
+	var contentDivElmt = document.createElement("div");
+	var timeElmt       = document.createElement("span");
 	
 	if (type == 1) {
 		var paragraphElmt = document.createElement("p");
-		paragraphElmt.textContent = textValue;
+		paragraphElmt.textContent = jsonMessage["content"];
 		contentDivElmt.appendChild(paragraphElmt);
 	}
 	else {
 		var imgElmt = document.createElement("img");
-		imgElmt.src = textValue;
+		imgElmt.src = jsonMessage["content"];
 		if (type == 2) {
 			imgElmt.className = "bnkSticker";
 		}
@@ -137,7 +207,7 @@ function showSelfChat1(textValue, type) {
 		mainOlElmt.appendChild(mainLiElmt);	
 	}
 	else {
-		bnkChatTblElmt.removeChild(bnkChatTblElmt.firstElementChild);
+		//bnkChatTblElmt.removeChild(bnkChatTblElmt.firstElementChild);
 		mainOlElmt = document.createElement("ol");
 		mainOlElmt.className  = "chat";
 		mainOlElmt.setAttribute("id", "bnkStartCon");
@@ -151,7 +221,8 @@ function showSelfChat1(textValue, type) {
 //Type = 1: text
 //Type = 2: sticker
 //Type = 3: image
-function showSelfChat2(textValue, type) {
+//Type = 4: file
+function showChat2(jsonMessage, type) {
 	var mainOlElmt     = document.getElementById("bnkStartCon");
 	var currentDivElmt = mainOlElmt.lastElementChild.lastElementChild;
 	var spanTimeElmt   = currentDivElmt.lastElementChild;
@@ -162,7 +233,7 @@ function showSelfChat2(textValue, type) {
 	//process messageContent
 	if (type == 1) {
 		var paragraphElmt = document.createElement("p");
-		paragraphElmt.textContent = textValue;
+		paragraphElmt.textContent = jsonMessage["content"];
 		currentDivElmt.appendChild(paragraphElmt);
 	}
 	else {

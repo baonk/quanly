@@ -68,8 +68,31 @@ function displayConversation(obj) {
 	var userId   = obj.getAttribute("userId");
 	var userName = obj.getAttribute("userName");
 	chatUser     = userId;
+	conType      = 'SINGLE';
 	
 	document.getElementById("chatHeader").textContent = userName;
+	
+	$.ajax({
+		type: "POST",
+		url: "/chat/getMessages.do",
+		data: {
+			friend : userId,
+			type   : conType,
+			page   : messageIdx
+		},
+		dataType: "JSON",
+		async: true,
+		success : function(data) {
+			var result     = data.messageList;
+			var friendInfo = data.friendInfo;
+			console.log(result);
+			console.log(friendInfo);
+			displayMessage(result, friendInfo);
+		},
+		error : function(error) {
+			alert("<spring:message code='chat.t1' />" + error);
+		}
+	});
 }
 
 
