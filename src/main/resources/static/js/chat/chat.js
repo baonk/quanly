@@ -93,6 +93,8 @@ function displayMessage(result, friendInf) {
 			}
 		}
 	}
+	
+	lastChattedUser = null;
 }
 
 /*function sendMessage() {
@@ -214,7 +216,7 @@ function showChat1(jsonMessage, type, chatType) {
 		bnkChatTblElmt.appendChild(mainOlElmt);
 	}
 
-	lastChattedUser = currentUser;
+	lastChattedUser = jsonMessage["senderId"];
 }
 
 //Type = 1: text
@@ -252,6 +254,7 @@ function showChat2(jsonMessage, type) {
 	
 	//Add currentTime to current div
 	currentDivElmt.appendChild(timeElmt);
+	lastChattedUser = jsonMessage["senderId"];
 }
 
 function showOtherChat1() {

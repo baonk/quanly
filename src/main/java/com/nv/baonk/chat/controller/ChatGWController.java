@@ -134,7 +134,7 @@ public class ChatGWController {
 		logger.debug("Sender ID: " + message.getSender() + " || Receiver ID: " + message.getReceiver());
 		
 		//Send message to both users
-		messageTemplate.convertAndSendToUser(message.getReceiver(), "/queue/reply", message);
-		messageTemplate.convertAndSendToUser(message.getSender(), "/queue/reply", message);
+		messageTemplate.convertAndSendToUser(message.getReceiver(), "/queue/reply", messageVO);
+		messageTemplate.convertAndSendToUser(message.getSender(), "/queue/reply", messageVO);
 	}
 }

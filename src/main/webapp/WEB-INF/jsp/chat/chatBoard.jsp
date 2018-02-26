@@ -65,6 +65,8 @@
 			var type    = message["contType"];
 			var sender  = message["senderId"];
 			
+			console.log("Sender: " + sender + " || CurrentUser: " + currentUser + " || LastlastChattedUser: " + lastChattedUser + " || ChatUser: " + chatUser);
+			
 			if (sender == currentUser) {
 				if (lastChattedUser == currentUser) {
 					showChat2(message, type);
@@ -75,7 +77,7 @@
 			}
 			else {
 				if (lastChattedUser == chatUser) {
-					showChat2(rmessage, type);
+					showChat2(message, type);
 				}
 				else {
 					showChat1(message, type, "other");
