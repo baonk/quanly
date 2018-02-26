@@ -30,13 +30,13 @@ public class SecurityConfigBaonk {
 	private static final Logger logger = LoggerFactory.getLogger(SecurityConfigBaonk.class);
 	
 	@Value("${CRYPTO.prm}")
-	public String prm;	
+	public String prm;
 	@Value("${CRYPTO.pbm}")
-	public String pbm;	
+	public String pbm;
 	@Value("${CRYPTO.pre}")
-	public String pre;	
+	public String pre;
 	@Value("${CRYPTO.apb}")
-	public String apb;	
+	public String apb;
 	
 	public static boolean encryptFile(String source, String target) throws Exception {
 		boolean result              = false;
@@ -181,7 +181,6 @@ public class SecurityConfigBaonk {
 		}
 		
 		byte[] hashValue = null;
-		
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.reset();
 		md.update(salt);
@@ -237,8 +236,8 @@ public class SecurityConfigBaonk {
 		
 		try {
 			privateKey = KeyFactory
-					.getInstance("RSA")
-					.generatePrivate(new RSAPrivateKeySpec(modulus_, privateExponent_));
+						.getInstance("RSA")
+						.generatePrivate(new RSAPrivateKeySpec(modulus_, privateExponent_));
 		}
 		catch (InvalidKeySpecException e) {
 			e.printStackTrace();

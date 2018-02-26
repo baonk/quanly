@@ -20,7 +20,7 @@ public class UsernameStoringUrlAuthenticationFailureHandler extends SimpleUrlAut
 		logger.debug("Run in failureHander");
 		
 		request.getSession (true).setAttribute("SPRING_SECURITY_LAST_USERID", request.getParameter ("userid"));
-		request.getSession (true).setAttribute("SPRING_SECURITY_LAST_PASS", request.getParameter ("password"));
+		request.getSession (true).setAttribute("SPRING_SECURITY_LAST_PASS",   request.getParameter ("password"));
 		
 		super.setDefaultFailureUrl(defaultFailureUrl);
 		super.onAuthenticationFailure(request, response, exception);

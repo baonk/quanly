@@ -78,7 +78,7 @@
 	<select id="findUserByUseridAndTenantid" resultMap="userVO">
 		<include refid="selectUser"/>
 		where
-			u.userid = #{userId}
+			u.userid   = #{userId}
 		and
 			u.tenantid = #{tenantId}
 	</select>
@@ -88,7 +88,7 @@
 		where
 			(departmentid = #{deptId} or other_position = #{deptId})
 		and
-			tenantid = #{tenantId}
+			tenantid      = #{tenantId}
 	</select>
 	
 	<select id="findAllCompanyEmployees" resultMap="userVO">
@@ -96,7 +96,7 @@
 		where
 			companyid = #{companyId}
 		and
-			tenantid = #{tenantId}
+			tenantid  = #{tenantId}
 	</select>
 	
 	<select id="getAllUsersOfDepartment" resultMap="userVO">
@@ -104,7 +104,7 @@
 		where
 			departmentid = #{deptId}
 		and
-			tenantid = #{tenantId}
+			tenantid     = #{tenantId}
 	</select>
 	
 	<select id="findUsersWithSearchOption" resultMap="userVO">

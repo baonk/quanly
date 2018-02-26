@@ -73,7 +73,7 @@
 	</select>
 	
 	<select id="getAllSimpleSubDepts" resultMap="simpleDepartmentVO">
-		select 
+		select
 			department_id,
 			department_name,
 			company_id,
@@ -83,7 +83,7 @@
 	</select>
 	
 	<select id="getSimpleDeptList" resultMap="simpleDepartmentVO">
-		select 
+		select
 			department_id,
 			department_name,
 			company_id,

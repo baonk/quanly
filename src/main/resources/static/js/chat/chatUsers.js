@@ -85,8 +85,6 @@ function displayConversation(obj) {
 		success : function(data) {
 			var result     = data.messageList;
 			var friendInfo = data.friendInfo;
-			console.log(result);
-			console.log(friendInfo);
 			displayMessage(result, friendInfo);
 		},
 		error : function(error) {

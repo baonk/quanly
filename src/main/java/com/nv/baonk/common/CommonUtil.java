@@ -1,4 +1,5 @@
 package com.nv.baonk.common;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,12 +29,10 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -41,7 +40,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -58,7 +56,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
 import com.nv.baonk.chat.service.ChatService;
 import com.nv.baonk.chat.vo.ChatMessageSimpleVO;
 import com.nv.baonk.chat.vo.ChatMessageVO;
@@ -66,7 +63,6 @@ import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.User;
 import com.nv.baonk.organ.vo.Department;
 import com.nv.baonk.security.SecurityConfigBaonk;
-
 
 @Component
 public class CommonUtil {
@@ -276,7 +272,7 @@ public class CommonUtil {
 	
 	/*public LoginSimpleVO userInfoSimple(String loginCookie) {
 		try{
-			String decData        = egovFileScrty.decryptAES(loginCookie);			
+			String decData        = egovFileScrty.decryptAES(loginCookie);
 			String[] decDataArray = decData.split("///");
 			
 			String serverName = decDataArray[0];
@@ -439,7 +435,7 @@ public class CommonUtil {
 	                        //쿠기에 저장되어 있는 IP
 	                        cValue = egovFileScrty.decryptAES(cookie.getValue());
 	
-	                        if(cValue.split("///")[3].equals(ip)){                  
+	                        if(cValue.split("///")[3].equals(ip)){
 	                            isCookie = true;
 	                        }
 	                    } catch (Exception e) {
@@ -458,7 +454,7 @@ public class CommonUtil {
         			}
         	    }
         	}
-        }        
+        }
         return isCookie;
 	}
 	
@@ -527,7 +523,7 @@ public class CommonUtil {
 				
 		        stb.append("<" + field.getName().toUpperCase() + ">");
 		        stb.append(cleanValue(data));
-		        stb.append("</" + field.getName().toUpperCase() + ">");		        
+		        stb.append("</" + field.getName().toUpperCase() + ">");
 		    }
 			
 			stb.append("</ROW>");
@@ -560,7 +556,7 @@ public class CommonUtil {
 				}				
 		        stb.append("<" + field.getName().toUpperCase() + ">");
 		        stb.append(cleanValue(data));
-		        stb.append("</" + field.getName().toUpperCase() + ">");		        
+		        stb.append("</" + field.getName().toUpperCase() + ">");
 		    }
 			stb.append("</ROW>");
 		}
@@ -604,7 +600,7 @@ public class CommonUtil {
 	        value = value.replaceAll("'", "&#39;");
 	        value = value.replaceAll("\"", "&quot;");
 	        value = value.replaceAll("eval\\((.*)\\)", "");
-	        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");        
+	        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
 	        //value = value.replaceAll("script", "");
 		}
 
@@ -625,7 +621,7 @@ public class CommonUtil {
 	public String trimDoubleQuotes(String src) {
 		if (src.startsWith("\"") && src.endsWith("\"")) {
 			src = src.substring(1, src.length() - 1);
-		}		
+		}
 		
 		return src;
 	}
@@ -771,7 +767,7 @@ public class CommonUtil {
 		String format = offSet.split("\\|")[1];
 		String cal = format.substring(0,1);
 		int min = Integer.parseInt(format.substring(1,3)) * 60 + Integer.parseInt(format.substring(4,6));
-		String time = cal + min;	
+		String time = cal + min;
 		
 		return time;
 	}
@@ -853,7 +849,7 @@ public class CommonUtil {
         String retFormat = "0";
         Double size = Double.parseDouble(bytes);
 
-        String[] s = { "bytes", "KB", "MB", "GB", "TB", "PB" };       
+        String[] s = { "bytes", "KB", "MB", "GB", "TB", "PB" };
 
         if (!bytes.equals("0")) {
               int idx = (int) Math.floor(Math.log(size) / Math.log(1024));
@@ -884,7 +880,7 @@ public class CommonUtil {
 				String items[] = licenseKey.split(":");
 
 				if (items.length >= 3) {
-					packageType = items[2];					
+					packageType = items[2];
 				}
 			} catch (Exception e) {
 				logger.debug("License Key Decryption failed.");
@@ -1022,4 +1018,5 @@ public class CommonUtil {
 		currentMaxFileId     = (currentMaxFileId == -1) ? 1 : (currentMaxFileId + 1);
 		return Integer.toString(currentMaxFileId);
 	}
+
 }

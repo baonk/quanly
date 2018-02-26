@@ -24,8 +24,8 @@ public class MandatoryUserDetailsService implements UserDetailsService{
 	private HttpServletRequest httpRequest;
 
 	public MandatoryUserDetailsService(UserService userService, HttpServletRequest request) {
-		this.userService        = userService;
-		this.httpRequest        = request;
+		this.userService = userService;
+		this.httpRequest = request;
 	}
 	
 	@Override

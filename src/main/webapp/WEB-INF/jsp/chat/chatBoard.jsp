@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language ="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri    ="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix ="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 
-<head>	
+<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
 	<link rel="stylesheet" type="text/css" href="/css/chat/chat.css" />
@@ -34,11 +34,11 @@
 			connect();
 			search_Set("1");
 			
-			var stickerElmt = document.getElementById("bnkEmoticon");
-			stickerElmt.onclick = function() {addSticker()};
+			var stickerElmt      = document.getElementById("bnkEmoticon");
+			stickerElmt.onclick  = function() {addSticker()};
 			
-			var chatAreaElmt = document.getElementById("bnkCmtTxt");
-			chatAreaElmt.onfocus= function() {checkSticker()};
+			var chatAreaElmt     = document.getElementById("bnkCmtTxt");
+			chatAreaElmt.onfocus = function() {checkSticker()};
 		}
 
 		function checkSticker() {
@@ -52,10 +52,35 @@
 			var socket = new SockJS("/wsbaonk?token=" + currentUser);
 			stompClient = Stomp.over(socket);
 			stompClient.connect({}, function(frame) {
-				stompClient.subscribe('/user/queue/reply', function(data){
-					alert(data.body);
-				});
+				stompClient.subscribe('/user/queue/reply', displayReceivedMess);
 			});
+		}
+
+		function displayReceivedMess(payload) {
+			var message = JSON.parse(payload.body);
+			
+			console.log("Payload: " + payload);
+			
+			var chatTbl = document.getElementById("bnkChatTbl");
+			var type    = message["contType"];
+			var sender  = message["senderId"];
+			
+			if (sender == currentUser) {
+				if (lastChattedUser == currentUser) {
+					showChat2(message, type);
+				}
+				else {
+					showChat1(message, type, "self");
+				}
+			}
+			else {
+				if (lastChattedUser == chatUser) {
+					showChat2(rmessage, type);
+				}
+				else {
+					showChat1(message, type, "other");
+				}
+			}
 		}
 	</script>
 	

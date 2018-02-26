@@ -3,7 +3,6 @@ package com.nv.baonk.config;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,7 @@ import com.nv.baonk.security.SecurityConfigBaonk;
 @Component
 public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	private final Logger logger = LoggerFactory.getLogger(BaonkAuthenticationSuccessfulHandler.class);
-	public final Integer SESSION_TIMEOUT_IN_SECONDS = 1 * 60;
+	public final Integer SESSION_TIMEOUT_IN_SECONDS = 60 * 60;
 	
 	@Autowired
 	private SecurityConfigBaonk securityConfBaonk;

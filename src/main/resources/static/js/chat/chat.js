@@ -1,7 +1,7 @@
-var currentGroupSticker     = -1;
-var stickerIndex            = null;
-var numberOfGroupSticker    = 5;
-var lastChattedUser         = null;
+var currentGroupSticker  = -1;
+var stickerIndex         = null;
+var numberOfGroupSticker = 5;
+var lastChattedUser      = null;
 
 function check_key(event) {
 	if (event.which == 13 && !event.shiftKey) {
@@ -11,8 +11,7 @@ function check_key(event) {
 }
 
 function sendMessage() {
-	var textValue = document.getElementById("bnkCmtTxt").value;
-	
+	var textValue   = document.getElementById("bnkCmtTxt").value;
 	var chatMessage = {
 		sender       : currentUser,
 		receiver     : chatUser,

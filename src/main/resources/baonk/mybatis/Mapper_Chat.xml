@@ -31,8 +31,8 @@
 	<select id="getChatUserList" resultMap="chatUserVO">
 		select
 			(case when f.userId = u.userid then f.userId else f.friendId end) as user_id,
-			u.image as image,
-			u.name as user_name,
+			u.image  as image,
+			u.name   as user_name,
 			u.active as active
 		from
 			friends f left join  user u on 
@@ -68,8 +68,8 @@
 	<select id="getAllChatUsers" resultMap="chatUserVO">
 		select
 			u.userid as user_id,
-			u.image as image,
-			u.name as user_name,
+			u.image  as image,
+			u.name   as user_name,
 			u.active as active
 		from
 			user u
@@ -108,7 +108,7 @@
 		and
 			receiver_type = 1
 		and
-			tenant_id = #{tenantId}
+			tenant_id     = #{tenantId}
 		order by
 			cast(message_id as int) desc
 		limit
