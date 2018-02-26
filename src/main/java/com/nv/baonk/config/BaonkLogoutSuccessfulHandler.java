@@ -1,6 +1,8 @@
 package com.nv.baonk.config;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -35,15 +37,6 @@ public class BaonkLogoutSuccessfulHandler implements ApplicationListener<Session
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		String serverName   = request.getServerName();
-		String userId       = authentication.getName();
-		int tenantId        = userService.getTenantId(serverName);
-		User authUser       = userService.findUserByUseridAndTenantid(userId, tenantId);
-		
-		//Set active status
-		authUser.setActive(0);
-		userService.updateUser(authUser);
-		
 		request.getSession().setAttribute("previous_page", "");
 		response.sendRedirect("login");
 	}
@@ -58,6 +51,10 @@ public class BaonkLogoutSuccessfulHandler implements ApplicationListener<Session
 			logger.debug("UserID: " + user.getUsername() + " || TenantId: " + user.getTenant());
 			
 			//Set active status
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date                  = new Date();
+			String time                = formatter.format(date);
+			authUser.setLastlogout(time);
 			authUser.setActive(0);
 			userService.updateUser(authUser);
 		}

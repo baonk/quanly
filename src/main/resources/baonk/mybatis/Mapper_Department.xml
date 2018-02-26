@@ -5,21 +5,21 @@
 
 <mapper namespace="com.nv.baonk.organ.dao.DepartmentMapper">
 	<resultMap type="DepartmentVO" id="departmentVO">
-		<result property="departmentid"   column="department_id"/>
-		<result property="tenantid"       column="tenant_id"/>
-		<result property="departmentname" column="department_name"/>
-		<result property="departmentpath" column="department_path"/>
-		<result property="companyId"      column="company_id"/>
-		<result property="companyName"    column="company_name"/>
-		<result property="email"          column="email"/>
+		<result property="departmentid"   column="department_id"    />
+		<result property="tenantid"       column="tenant_id"        />
+		<result property="departmentname" column="department_name"  />
+		<result property="departmentpath" column="department_path"  />
+		<result property="companyId"      column="company_id"       />
+		<result property="companyName"    column="company_name"     />
+		<result property="email"          column="email"            />
 		<result property="parentdept"     column="parent_department"/>
 	</resultMap>
 	
 	<resultMap type="SimpleDepartmentVO" id="simpleDepartmentVO">
-		<result property="departmentid"   column="department_id"/>
+		<result property="departmentid"   column="department_id"  />
 		<result property="departmentname" column="department_name"/>
-		<result property="companyid"      column="company_id"/>
-		<result property="companyname"    column="company_name"/>
+		<result property="companyid"      column="company_id"     />
+		<result property="companyname"    column="company_name"   />
 	</resultMap>
 	
 	<select id="findByParentdeptAndTenantid" resultMap="departmentVO">

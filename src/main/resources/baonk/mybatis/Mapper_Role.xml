@@ -5,7 +5,7 @@
 
 <mapper namespace="com.nv.baonk.login.dao.RoleMapper">
 	<resultMap type="RoleVO" id="roleVO">
-		<result property="roleid"         column="role_id"/>
+		<result property="roleid"         column="role_id"  />
 		<result property="rolename"       column="role_name"/>
 	</resultMap>
 	

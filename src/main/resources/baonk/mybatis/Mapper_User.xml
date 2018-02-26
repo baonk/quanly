@@ -5,36 +5,37 @@
 
 <mapper namespace="com.nv.baonk.login.dao.UserMapper">
 	<resultMap type="RoleVO" id="roleVO">
-		<result property="roleid"         column="role_id"/>
+		<result property="roleid"         column="role_id"  />
 		<result property="rolename"       column="role_name"/>
 	</resultMap>
 	
 	<resultMap type="UserVO" id="userVO">
-		<result property="userid"         column="userid"/>
-		<result property="email"          column="email"/>
-		<result property="username"       column="name"/>
-		<result property="password"       column="password"/>
-		<result property="active"         column="active"/>
+		<result property="userid"         column="userid"        />
+		<result property="email"          column="email"         />
+		<result property="username"       column="name"          />
+		<result property="password"       column="password"      />
+		<result property="active"         column="active"        />
 		<result property="otherpos"       column="other_position"/>
-		<result property="phone"          column="phone_number"/>
-		<result property="image"          column="image"/>
-		<result property="birthday"       column="birthday"/>
-		<result property="lastlogin"      column="lastlogin"/>
-		<result property="companyid"      column="companyid"/>
-		<result property="companyname"    column="companyname"/>
-		<result property="tenantid"       column="tenantid"/>
-		<result property="departmentid"   column="departmentid"/>
+		<result property="phone"          column="phone_number"  />
+		<result property="image"          column="image"         />
+		<result property="birthday"       column="birthday"      />
+		<result property="lastlogin"      column="lastlogin"     />
+		<result property="lastlogout"     column="lastlogout"    />
+		<result property="companyid"      column="companyid"     />
+		<result property="companyname"    column="companyname"   />
+		<result property="tenantid"       column="tenantid"      />
+		<result property="departmentid"   column="departmentid"  />
 		<result property="departmentname" column="departmentname"/>
-		<result property="position"       column="position"/>
-		<result property="hobby"          column="hobby"/>
-		<result property="homephone"      column="homephone"/>
-		<result property="fax"            column="fax"/>
-		<result property="homeaddress"    column="homeaddress"/>
-		<result property="nickname"       column="nickname"/>
-		<result property="postcode"       column="postcode"/>
-		<result property="sex"            column="sex"/>
-		<result property="country"        column="country"/>
-		<collection property="roles"      resultMap="roleVO"/>
+		<result property="position"       column="position"      />
+		<result property="hobby"          column="hobby"         />
+		<result property="homephone"      column="homephone"     />
+		<result property="fax"            column="fax"           />
+		<result property="homeaddress"    column="homeaddress"   />
+		<result property="nickname"       column="nickname"      />
+		<result property="postcode"       column="postcode"      />
+		<result property="sex"            column="sex"           />
+		<result property="country"        column="country"       />
+		<collection property="roles"      resultMap="roleVO"     />
 	</resultMap>
 	
 	<sql id="selectUser">
@@ -49,6 +50,7 @@
 			u.image,
 			u.birthday,
 			u.lastlogin,
+			u.lastlogout,
 			u.companyid,
 			u.companyname,
 			u.tenantid,
@@ -144,14 +146,18 @@
 	
 	<insert id="saveUser" parameterType="userVO">
 		insert into user (
-			companyid,    tenantid,     userid,         active,         birthday,     departmentid,    position,       email,
-			image,        lastlogin,    other_position, password,       phone_number, name,            companyname,    departmentname,
-			hobby,        fax,          homephone,      homeaddress,    nickname,     postcode,        sex,            country
+			companyid,       tenantid,          userid,      active,       birthday,
+			departmentid,    position,          email,       image,        lastlogin,
+			lastlogout,      other_position,    password,    phone_number, name,
+			companyname,     departmentname,    hobby,       fax,          homephone,
+			homeaddress,     nickname,          postcode,    sex,          country
 		)
 		values (
-			#{companyid}, #{tenantid},  #{userid},      #{active},      #{birthday},  #{departmentid}, #{position},    #{email},
-			#{image},     #{lastlogin}, #{otherpos},    #{password},    #{phone},     #{username},     #{companyname}, #{departmentname},
-			#{hobby},     #{fax},       #{homephone},   #{homeaddress}, #{nickname},  #{postcode},     #{sex},         #{country}
+			#{companyid},    #{tenantid},       #{userid},   #{active},    #{birthday},
+			#{departmentid}, #{position},       #{email},    #{image},     #{lastlogin},
+			#{lastlogout},   #{otherpos},       #{password}, #{phone},     #{username},
+			#{companyname},  #{departmentname}, #{hobby},    #{fax},       #{homephone}, 
+			#{homeaddress},  #{nickname},       #{postcode}, #{sex},       #{country}
 		)
 	</insert>
 	
@@ -165,6 +171,7 @@
 			email          = #{email},
 			image          = #{image},
 			lastlogin      = #{lastlogin},
+			lastlogout     = #{lastlogout},
 			other_position = #{otherpos},
 			password       = #{password},
 			phone_number   = #{phone},

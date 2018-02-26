@@ -48,7 +48,7 @@ public class ChatGWController {
 		int totalRows     = 0;
 		int totalPages    = 0;
 		int isAdmin       = 0;
-		int startPoint    = (currIdx - 1) * blockSize;		
+		int startPoint    = (currIdx - 1) * blockSize;
 		JSONObject result = new JSONObject();
 		
 		logger.debug("UserId: " + userId + " || tenantId: " + tenantId);

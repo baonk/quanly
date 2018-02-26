@@ -1,6 +1,9 @@
 package com.nv.baonk.config;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +58,11 @@ public class BaonkAuthenticationSuccessfulHandler extends SimpleUrlAuthenticatio
 			e.printStackTrace();
 		}
 		
-		//Set active status
+		//Set active status and login time
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date                  = new Date();
+		String time                = formatter.format(date);
+		authUser.setLastlogin(time);
 		authUser.setActive(1);
 		userService.updateUser(authUser);
 		

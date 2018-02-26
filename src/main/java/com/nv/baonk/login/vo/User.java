@@ -15,6 +15,7 @@ public class User implements Serializable{
 	private String image;
 	private String birthday;
 	private String lastlogin;
+	private String lastlogout;
 	private String companyid;
 	private String companyname;
 	private int tenantid;
@@ -230,4 +231,13 @@ public class User implements Serializable{
 	public void setPosition(String position) {
 		this.position = position;
 	}
+
+	public String getLastlogout() {
+		return lastlogout;
+	}
+
+	public void setLastlogout(String lastlogout) {
+		this.lastlogout = lastlogout;
+	}
+
 }
