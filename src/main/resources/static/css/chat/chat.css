@@ -50,9 +50,13 @@
 
 .bnkSearch {height: 25px; display: flex; background-color: #eee}
 
+.chatListName {font-weight: bold; font-size: 12px; font-family: Helvetica, Arial, sans-serif; padding: 8px 0px;}
+
 .bnkbttnSearch {height: 25px; border: 0; margin: 0; outline: 0; padding: 0; width: 100%; flex-grow: 1; background-color: #f6f7f9;}
 
 .bnkChatUsers {display:flex; flex-direction: column;}
+
+.bnkChatGroups {display:flex; flex-direction: column;}
 
 .bnkNoTalk {height: 100px; background-color: #fff; display: flex;}
 

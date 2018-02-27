@@ -122,12 +122,14 @@ public class ChatController {
 		String status                 = resultBody.get("status").toString();
 		
 		if (status.equals("ok")) {
-			JSONArray userList = (JSONArray) resultBody.get("data");
-			long totalPages    = (long) resultBody.get("totalPages");
-			long totalRows     = (long) resultBody.get("totalRows");
+			JSONArray userList  = (JSONArray) resultBody.get("data1");
+			JSONArray groupList = (JSONArray) resultBody.get("data2");
+			long totalGroups    = (long) resultBody.get("totalGroups");
+			long totalUsers     = (long) resultBody.get("totalUsers");
 			map.put("userList", userList);
-			map.put("totalPages", totalPages);
-			map.put("totalRows", totalRows);
+			map.put("groupList", groupList);
+			map.put("totalGroups", totalGroups);
+			map.put("totalUsers", totalUsers);
 		}
 		
 		return map;

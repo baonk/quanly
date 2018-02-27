@@ -5,10 +5,11 @@
 
 <mapper namespace="com.nv.baonk.chat.dao.ChatMapper">
 	<resultMap type="ChatUserVO" id="chatUserVO">
-		<result property="userId"         column="user_id"  />
-		<result property="image"          column="image"    />
-		<result property="userName"       column="user_name"/>
-		<result property="active"         column="active"   />
+		<result property="userId"         column="user_id"      />
+		<result property="image"          column="image"        />
+		<result property="userName"       column="user_name"    />
+		<result property="active"         column="active"       />
+		<result property="unreadCnt"      column="unread_cnt"   />
 	</resultMap>
 	
 	<resultMap type="ChatMessageVO" id="chatMessageVO">
@@ -30,37 +31,80 @@
 	
 	<select id="getChatUserList" resultMap="chatUserVO">
 		select
-			(case when f.userId = u.userid then f.userId else f.friendId end) as user_id,
+			u.userid as user_id,
 			u.image  as image,
 			u.name   as user_name,
-			u.active as active
+			u.active as active,
+			(
+			case when (select last_message from conversation where user_id = #{userId} and related_id = u.userid and tenant_id = #{tenantId}) is null then (select count(*) from chatmessage where sender_id = u.userid and receiver_id = #{userId} and tenant_id = #{tenantId})
+				else(
+							select
+								count(*)
+							from
+								chatmessage
+							where
+								(cast(message_id as int) > cast((select last_message as last_message from conversation where user_id = #{userId} and related_id = u.userid and tenant_id = #{tenantId}) as int))
+							and
+								(sender_id = u.userid and receiver_id = #{userId})
+							and
+								tenant_id = #{tenantId}
+					)
+				end
+			)
+			as unread_cnt
 		from
-			friends f left join  user u on 
-											(
-												(u.userid = f.userId and f.friendId = #{userId}) 
-											or
-												(u.userid = f.friendId and f.userId = #{userId})
-											)
-										and u.tenantid = f.tenantId
+			chatusers f join user u on (u.userid = f.friendId and f.userId = #{userId}) and u.tenantid = f.tenantId
+						left join conversation c on (c.user_id = f.userId and c.related_id = f.friendId) and c.tenant_id = f.tenantId
 		where
 			u.tenantid = #{tenantId}
 		order by
-			u.name ASC
-		limit
-			#{startPoint}, #{blockSize}
+			c.lastChated desc,
+			u.name asc
+<!-- 		limit
+			#{startPoint}, #{blockSize} -->
+	</select>
+	
+	<select id="getAllGroupChat" resultMap="chatUserVO">
+		select
+			m.group_id     as user_id,
+			g.avatar       as image,
+			g.name         as user_name,
+			g.group_status as active,
+			(
+				case when (select last_message from conversation where user_id = #{userId} and related_id = m.group_id and tenant_id = #{tenantId}) is null then (select count(*) from chatmessage where receiver_id = m.group_id and tenant_id = #{tenantId})
+					else (
+								select
+									count(*)
+								from
+									chatmessage
+								where
+									(cast(message_id as int) > cast((select last_message as last_message from conversation where user_id = #{userId} and related_id = m.group_id and tenant_id = #{tenantId}) as int))
+								and
+									receiver_id = m.group_id
+								and
+									tenant_id = #{tenantId}
+							)
+					end
+			)
+			as unread_cnt
+		from
+			groupchat g join groupchatmember m on (g.id = m.group_id and g.tenant_id = m.tenant_id)
+		where
+				(m.member_id = #{userId} and m.member_type = 'user')
+			or
+				(m.member_id = #{deptId} and m.member_type = 'dept')
+			and 
+				m.tenant_id = #{tenantId}
+		order by
+			g.lastChated desc,
+			g.name asc
 	</select>
 	
 	<select id="getChatUserListCnt" resultType="Integer">
 		select
 			count(*)
 		from
-			friends f left join  user u on 
-											(
-												(u.userid = f.userId and f.friendId = #{userId}) 
-											or
-												(u.userid = f.friendId and f.userId = #{userId})
-											)
-										and u.tenantid = f.tenantId
+			chatusers f join user u on (u.userid = f.friendId and f.userId = #{userId}) and u.tenantid = f.tenantId
 		where
 			u.tenantid = #{tenantId}
 	</select>
@@ -70,17 +114,35 @@
 			u.userid as user_id,
 			u.image  as image,
 			u.name   as user_name,
-			u.active as active
+			u.active as active,
+			(
+			case when (select last_message from conversation where user_id = #{userId} and related_id = u.userid and tenant_id = #{tenantId}) is null then (select count(*) from chatmessage where sender_id = u.userid and receiver_id = #{userId} and tenant_id = #{tenantId})
+				else(
+							select
+								count(*)
+							from
+								chatmessage
+							where
+								(cast(message_id as int) > cast((select last_message as last_message from conversation where user_id = #{userId} and related_id = u.userid and tenant_id = #{tenantId}) as int))
+							and
+								(sender_id = u.userid and receiver_id = #{userId})
+							and
+								tenant_id = #{tenantId}
+					)
+				end
+			)
+			as unread_cnt
 		from
-			user u
+			user u left join conversation c on (u.userid = c.related_id and c.user_id = #{userId}) and u.userid = c.tenant_id
 		where
 			u.tenantid = #{tenantId}
 		and
 			u.userid  != #{userId}
 		order by
+			c.lastChated DESC,
 			u.name ASC
-		limit
-			#{startPoint}, #{blockSize}
+		<!-- limit
+			#{startPoint}, #{blockSize} -->
 	</select>
 	
 	<select id="getAllChatUsersCnt" resultType="Integer">

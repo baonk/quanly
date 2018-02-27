@@ -20,8 +20,8 @@
 		var tenantId    = "<c:out value="${tenantId}"/>";
 		var blockSize   = 10;
 		var currentPage = null;
-		var totalRows   = null;
-		var totalPages  = null;
+		var totalUsers  = null;
+		var totalGroups = null;
 		var strLang39   = "<spring:message code = 'chat.t3'/>";
 		var strLang40   = "<spring:message code = 'chat.t4'/>";
 		var stompClient = null;
@@ -103,9 +103,13 @@
 							<div class="bnkSearch">
 								<img src="/images/chat/search.png" style="height: 20px; width: 20px; margin: 2px;"/>
 								<input class="bnkbttnSearch" placeholder="Search chat history" maxlength="50" autocomplete="off"/>
+								<img src="/images/chat/transparent.ico" style="height:24px; width:24px; margin:0px; background-color:#f6f7f9;">
 							</div>
-							<div class="bnkHistory">
-								<div class="bnkChatUsers" id="listChatUsers"></div>
+							<div class="bnkHistory" id="chatTargetList" style="display:none;">
+								<div class="chatListName"><spring:message code='chat.t6'/></div>
+								<div class="bnkChatUsers"  id="listChatUsers" ></div>
+								<div class="chatListName"><spring:message code='chat.t7'/></div>
+								<div class="bnkChatGroups" id="listChatGroups"></div>
 							</div>
 						</div>
 						<div id="tblPageRayer"></div>

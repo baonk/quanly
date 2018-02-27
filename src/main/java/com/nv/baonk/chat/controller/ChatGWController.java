@@ -45,8 +45,8 @@ public class ChatGWController {
 		int tenantId      = request.getParameter("tenantId")  != null ? Integer.parseInt(request.getParameter("tenantId"))  : -1;
 		int currIdx       = request.getParameter("currIndex") != null ? Integer.parseInt(request.getParameter("currIndex")) :  1;
 		int blockSize     = 10;
-		int totalRows     = 0;
-		int totalPages    = 0;
+		int totalUsers    = 0;
+		int totalGroups   = 0;
 		int isAdmin       = 0;
 		int startPoint    = (currIdx - 1) * blockSize;
 		JSONObject result = new JSONObject();
@@ -70,15 +70,19 @@ public class ChatGWController {
 				}
 			}
 			
-			List<ChatUserVO> listUser = (isAdmin == 1) ? chatSerivce.getAllChatUsers(userId, startPoint, blockSize, tenantId) : chatSerivce.getChatUserList(userId, startPoint, blockSize, tenantId);
-			totalRows                 = (isAdmin == 1) ? chatSerivce.getAllChatUsersCnt(userId, tenantId)                     : chatSerivce.getChatUserListCnt(userId, tenantId);
-			totalPages                = (totalRows + blockSize - 1)/blockSize;
+			List<ChatUserVO> listUser  = (isAdmin == 1) ? chatSerivce.getAllChatUsers(userId, startPoint, blockSize, tenantId) : chatSerivce.getChatUserList(userId, startPoint, blockSize, tenantId);
+			totalUsers                 = listUser.size();
+			//totalUsers                 = (isAdmin == 1) ? chatSerivce.getAllChatUsersCnt(userId, tenantId)                     : chatSerivce.getChatUserListCnt(userId, tenantId);
+			//totalPages                = (totalRows + blockSize - 1)/blockSize;
+			List<ChatUserVO> listGroup = chatSerivce.getAllGroupChat(userId, user.getDepartmentid(), tenantId);
+			totalGroups                = listGroup.size();
 			
 			result.put("status", "ok");
 			result.put("code", 0);
-			result.put("data", listUser);
-			result.put("totalPages", totalPages);
-			result.put("totalRows", totalRows);
+			result.put("data1", listUser);
+			result.put("data2", listGroup);
+			result.put("totalGroups", totalGroups);
+			result.put("totalUsers", totalUsers);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

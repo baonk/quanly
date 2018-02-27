@@ -8,7 +8,7 @@ import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.chat.vo.ChatUserVO;
 
 @Service("ChatService")
-public class ChatServiceImpl implements ChatService{
+public class ChatServiceImpl implements ChatService {
 	@Autowired
 	private ChatMapper chatMapper;
 	
@@ -45,6 +45,11 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public void saveMessage(ChatMessageVO messageVO) throws Exception {
 		chatMapper.saveMessage(messageVO);
+	}
+
+	@Override
+	public List<ChatUserVO> getAllGroupChat(String userId, String departmentId, int tenantId) throws Exception {
+		return chatMapper.getAllGroupChat(userId, departmentId, tenantId);
 	}
 
 }

@@ -4,6 +4,7 @@ public class ChatUserVO {
 	private String userId;
 	private String image;
 	private String userName;
+	private String unreadCnt;
 	private int    active;
 
 	public String getUserId() {
@@ -37,4 +38,13 @@ public class ChatUserVO {
 	public void setActive(int active) {
 		this.active = active;
 	}
+
+	public String getUnreadCnt() {
+		return unreadCnt;
+	}
+
+	public void setUnreadCnt(String unreadCnt) {
+		this.unreadCnt = unreadCnt;
+	}
+
 }

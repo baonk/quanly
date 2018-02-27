@@ -13,4 +13,5 @@ public interface ChatService {
 	List<ChatMessageVO> getPersonalMessages(String userId, String friendId, int endPoint, int tenantId) throws Exception;
 	String getMaxMessageId(int tenantId) throws Exception;
 	void saveMessage(ChatMessageVO messageVO) throws Exception;
+	List<ChatUserVO> getAllGroupChat(String userId, String departmentid, int tenantId) throws Exception;
 }

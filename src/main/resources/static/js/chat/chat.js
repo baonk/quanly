@@ -245,8 +245,6 @@ function showChat2(jsonMessage, type, chatType) {
 	var newMessTime    = jsonMessage["createdTime"];
 	var checkResult    = compareTime(newMessTime, timeContent);
 	
-	console.log("NewMessageTime: " + newMessTime + " || OldMessageTime: " + timeContent + " || CheckResult: " + checkResult);
-	
 	switch(checkResult) {
 		case 1:
 			var divTimeElmt = document.createElement("div");
@@ -309,8 +307,6 @@ function compareTime(newTime, oldTime) {
 		else {
 			var newMinute = parseInt(newTime.substring(14, 16));
 			var oldMinute = parseInt(oldTime.substring(14, 16));
-			
-			console.log("newMinute: " + newMinute + " || oldMinute: " + oldMinute);
 			
 			if ((newMinute - oldMinute) <= 2) {
 				return 3;

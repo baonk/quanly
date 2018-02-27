@@ -15,4 +15,5 @@ public interface ChatMapper {
 	public List<ChatMessageVO> getPersonalMessages(@Param("senderId") String senderId, @Param("receiverId") String receiverId, @Param("endPoint") int endPoint, @Param("tenantId") int tenantId);
 	public String getMaxMessageId(@Param("tenantId") int tenantId);
 	public void saveMessage(ChatMessageVO messageVO);
+	public List<ChatUserVO> getAllGroupChat(@Param("userId") String userId, @Param("deptId") String departmentId, @Param("tenantId") int tenantId);
 }
