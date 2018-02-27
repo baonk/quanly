@@ -83,8 +83,9 @@ function displayConversation(obj) {
 		dataType: "JSON",
 		async: true,
 		success : function(data) {
-			var result     = data.messageList;
-			var friendInfo = data.friendInfo;
+			var result      = data.messageList;
+			var friendInfo  = data.friendInfo;
+			lastChattedUser = null;
 			displayMessage(result, friendInfo);
 		},
 		error : function(error) {

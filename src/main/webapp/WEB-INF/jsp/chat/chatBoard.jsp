@@ -69,7 +69,7 @@
 			
 			if (sender == currentUser) {
 				if (lastChattedUser == currentUser) {
-					showChat2(message, type);
+					showChat2(message, type, "self");
 				}
 				else {
 					showChat1(message, type, "self");
@@ -77,7 +77,7 @@
 			}
 			else {
 				if (lastChattedUser == chatUser) {
-					showChat2(message, type);
+					showChat2(message, type, "other");
 				}
 				else {
 					showChat1(message, type, "other");
@@ -116,7 +116,7 @@
 							<div class="bnkChatMessages" id="bnkChatTbl">
 							</div>
 							<!-- <ol class="chat">
-				    			<li class="self">
+								<li class="self">
 							      <div class="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
 							      <div class="msg">
 							        <p>Puff...</p>
@@ -127,7 +127,7 @@
 							        <p>Better other day</p>
 							      </div>
 							    </li>
-				    		</ol> -->
+							</ol> -->
 						
 							<!-- <ol class="chat">
 							    <li class="other">

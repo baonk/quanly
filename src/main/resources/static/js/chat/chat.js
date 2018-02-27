@@ -3,6 +3,19 @@ var stickerIndex         = null;
 var numberOfGroupSticker = 5;
 var lastChattedUser      = null;
 
+(function() {
+	var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+	var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+	Date.prototype.getMonthName = function() {
+		return months[this.getMonth()];
+	};
+	Date.prototype.getDayName = function() {
+		return days[this.getDay()];
+	};
+})();
+
 function check_key(event) {
 	if (event.which == 13 && !event.shiftKey) {
 		event.preventDefault();
@@ -77,7 +90,7 @@ function displayMessage(result, friendInf) {
 			
 			if (sender == currentUser) {
 				if (lastChattedUser == currentUser) {
-					showChat2(result[i], type);
+					showChat2(result[i], type, "self");
 				}
 				else {
 					showChat1(result[i], type, "self");
@@ -85,7 +98,7 @@ function displayMessage(result, friendInf) {
 			}
 			else {
 				if (lastChattedUser == chatUser) {
-					showChat2(result[i], type);
+					showChat2(result[i], type, "other");
 				}
 				else {
 					showChat1(result[i], type, "other");
@@ -93,8 +106,6 @@ function displayMessage(result, friendInf) {
 			}
 		}
 	}
-	
-	lastChattedUser = null;
 }
 
 /*function sendMessage() {
@@ -150,10 +161,13 @@ function displaySticker(obj) {
 }
 
 function getChatTime() {
-	var strTime     = new Date().toTimeString().split(" ")[0];
-	var strDateTime = new Date().toISOString();
+	//var strTime     = new Date().toTimeString().split(" ")[0];
+	var date        = new Date();
+	
+	var strDateTime = date.toISOString();
 	var strDate     = strDateTime.substring(0, 10);
-	return strDate + " " + strTime;
+	//return strDate + " " + strTime;
+	return date.getDayName() + ", " + date.getMonthName() + " " + strDate;
 }
 
 //Type = 1: text
@@ -179,7 +193,7 @@ function showChat1(jsonMessage, type, chatType) {
 	var timeElmt       = document.createElement("span");
 	
 	if (type == 1) {
-		var paragraphElmt = document.createElement("p");
+		var paragraphElmt         = document.createElement("p");
 		paragraphElmt.textContent = jsonMessage["content"];
 		contentDivElmt.appendChild(paragraphElmt);
 	}
@@ -196,7 +210,7 @@ function showChat1(jsonMessage, type, chatType) {
 	}
 	
 	contentDivElmt.className  = "msg";
-	timeElmt.textContent      = getChatTime();
+	timeElmt.textContent      = jsonMessage["createdTime"];
 	contentDivElmt.appendChild(timeElmt);
 	
 	//Add avatar and message content to main div
@@ -223,42 +237,126 @@ function showChat1(jsonMessage, type, chatType) {
 //Type = 2: sticker
 //Type = 3: image
 //Type = 4: file
-function showChat2(jsonMessage, type) {
+function showChat2(jsonMessage, type, chatType) {
 	var mainOlElmt     = document.getElementById("bnkStartCon");
 	var currentDivElmt = mainOlElmt.lastElementChild.lastElementChild;
 	var spanTimeElmt   = currentDivElmt.lastElementChild;
 	var timeContent    = spanTimeElmt.textContent;
-	currentDivElmt.removeChild(spanTimeElmt);
-	currentDivElmt.lastElementChild.setAttribute("title", timeContent);
+	var newMessTime    = jsonMessage["createdTime"];
+	var checkResult    = compareTime(newMessTime, timeContent);
+	
+	console.log("NewMessageTime: " + newMessTime + " || OldMessageTime: " + timeContent + " || CheckResult: " + checkResult);
+	
+	switch(checkResult) {
+		case 1:
+			var divTimeElmt = document.createElement("div");
+			divTimeElmt.setAttribute("class", "day");
+			divTimeElmt.textContent(getChatTime());
+			mainOlElmt.appendChild(divTimeElmt);
+			showChat1(jsonMessage, type, chatType);
+			break;
+		case 2:
+			var newChatType = chatType + "_cont";
+			showChatContinue(jsonMessage, type, newChatType);
+			break;
+		case 3:
+			currentDivElmt.removeChild(spanTimeElmt);
+			currentDivElmt.lastElementChild.setAttribute("title", timeContent);
+			
+			//process messageContent
+			if (type == 1) {
+				var paragraphElmt = document.createElement("p");
+				paragraphElmt.textContent = jsonMessage["content"];
+				currentDivElmt.appendChild(paragraphElmt);
+			}
+			else {
+				var imgElmt = document.createElement("img");
+				imgElmt.src = textValue;
+				if (type == 2) {
+					imgElmt.className = "bnkSticker";
+				}
+				else {
+				
+				}
+				currentDivElmt.appendChild(imgElmt);
+			}
+
+			var timeElmt         = document.createElement("span");
+			timeElmt.textContent = newMessTime;
+			
+			//Add currentTime to current div
+			currentDivElmt.appendChild(timeElmt);
+			break;
+	}
+	
+	lastChattedUser = jsonMessage["senderId"];
+}
+
+function compareTime(newTime, oldTime) {
+	var newDate = newTime.substring(0, 10);
+	var oldDate = oldTime.substring(0, 10);
+	
+	if (oldDate != newDate) {
+		return 1;
+	}
+	else {
+		var newHour = newTime.substring(11, 13);
+		var oldHour = oldTime.substring(11, 13);
+		
+		if (newHour != oldHour) {
+			return 2;
+		}
+		else {
+			var newMinute = parseInt(newTime.substring(14, 16));
+			var oldMinute = parseInt(oldTime.substring(14, 16));
+			
+			console.log("newMinute: " + newMinute + " || oldMinute: " + oldMinute);
+			
+			if ((newMinute - oldMinute) <= 2) {
+				return 3;
+			}
+			else {
+				return 2;
+			}
+		}
+	}
+}
+
+function showChatContinue(jsonMessage, type, chatType) {
+	var bnkChatTblElmt    = document.getElementById("bnkChatTbl");
+	var mainOlElmt        = null;
+	var mainLiElmt        = document.createElement("li");
+	mainLiElmt.className  = chatType;
 	
 	//process messageContent
+	var contentDivElmt = document.createElement("div");
+	var timeElmt       = document.createElement("span");
+	
 	if (type == 1) {
-		var paragraphElmt = document.createElement("p");
+		var paragraphElmt         = document.createElement("p");
 		paragraphElmt.textContent = jsonMessage["content"];
-		currentDivElmt.appendChild(paragraphElmt);
+		contentDivElmt.appendChild(paragraphElmt);
 	}
 	else {
 		var imgElmt = document.createElement("img");
-		imgElmt.src = textValue;
+		imgElmt.src = jsonMessage["content"];
 		if (type == 2) {
 			imgElmt.className = "bnkSticker";
 		}
 		else {
 		
 		}
-		currentDivElmt.appendChild(imgElmt);
+		contentDivElmt.appendChild(imgElmt);
 	}
-
-	var timeElmt              = document.createElement("span");
-	timeElmt.textContent      = getChatTime();
 	
-	//Add currentTime to current div
-	currentDivElmt.appendChild(timeElmt);
-	lastChattedUser = jsonMessage["senderId"];
-}
-
-function showOtherChat1() {
+	contentDivElmt.className  = "msg";
+	timeElmt.textContent      = jsonMessage["createdTime"];
+	contentDivElmt.appendChild(timeElmt);
 	
+	//Add message content to main div
+	mainLiElmt.appendChild(contentDivElmt);
+	mainOlElmt = document.getElementById("bnkStartCon");
+	mainOlElmt.appendChild(mainLiElmt);
 }
 
 function showOtherChat2() {

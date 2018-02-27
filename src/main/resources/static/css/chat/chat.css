@@ -28,15 +28,17 @@
 
 .chatImage2 {min-height: 35px; min-width: 35px; height: 35px; width: 35px; border-radius: 50%; margin: 0px 0px 0px 0px; cursor: pointer;}
 
-.avatarImage {min-height: 35px; min-width: 35px; height: 35px; width: 35px; border-radius: 50%; margin: 2.5px 0px 2.5px 0px;}
+.avatarImage {min-height: 45px; min-width: 45px; height: 45px; width: 45px; border-radius: 50%; margin: 2.5px 0px 2.5px 0px;}
 
-.statusImg {min-height: 10px; min-width: 10px; height: 10px; width: 10px; border-radius: 50%; margin: 15px 5px;}
+.statusImg {min-height: 10px; min-width: 10px; height: 10px; width: 10px; border-radius: 50%; margin: 20px 5px;}
 
-.chatUserName{line-height: 40px; height: 40px; margin-left: 10px; flex-grow: 1;}
+.chatUserName{line-height: 50px; height: 50px; margin-left: 10px; flex-grow: 1;}
 
-.userChat {display: flex; cursor: pointer;}
+.userChat {display: flex; cursor: pointer; position: relative;}
 
 .userChat:hover {background-color: #eee;}
+
+.userChat .count {position:absolute; left: 30px; top:2.5px; background-color:#0470E4; border-radius: 50%; font-size: 9px; min-height: 20px; min-width: 20px;line-height: 20px; text-align: center; color: #fff;}
 
 .leftHeaderMenu {display: flex; width: 100%; height: 50px; padding: 8px; border-bottom: 1px solid #3399ff;}
 
@@ -88,7 +90,7 @@ table, th, td {border-collapse: collapse; empty-cells: show; padding: 0px; margi
 /* M E S S A G E S */
 .chat {list-style: none; background: none; margin: 0px; padding: 0px 0px 50px 0px; margin-top: 10px; margin-bottom: 15px;}
 
-.chat li {padding: 0.5rem; overflow: hidden; display: flex;}
+.chat li {padding: 0.3rem; overflow: hidden; display: flex;}
 
 .chat .avatar {width: 50px; height: 50px; position: relative; display: block; z-index: 2; border-radius: 100%; -webkit-border-radius: 100%; -moz-border-radius: 100%; -ms-border-radius: 100%; background-color: rgba(255,255,255,0.9);}
 
@@ -100,17 +102,23 @@ table, th, td {border-collapse: collapse; empty-cells: show; padding: 0px; margi
 
 .chat .notification time {position: absolute; top: 7px; right: 7px; font-size: 11px; padding: 8px; border-radius: 100px; background: #337ab77a; box-shadow: 0px 0px 2px rgba(255,255,255,.02), inset 0px 0px 1px rgba(27,35,42,0.1); height: 1px; line-height: 0px; color: #222; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; transition: all .2s cubic-bezier(0.565, -0.260, 0.255, 1.410);}
 
-.self .msg {border-top-left-radius: 0px; box-shadow: -1px 2px 0px #fff; background-color: #fff; margin-left: 5px; margin-top: 10px;}
+.self .msg {/* border-top-left-radius: 0px; */ box-shadow: -1px 2px 0px #fff; background-color: #fff; margin-left: 5px;}
+
+.self_cont .msg {background-color: #fff; margin-left: 64px;}
 
 .self:before {content: ""; position: relative; top: 10px; right: 0px; left: 55px; width: 0px; height: 0px; border: 5px solid #fff; border-left-color: transparent; border-bottom-color: transparent;}
 
-.other {justify-content: flex-end; align-items: flex-end;}
+.other {justify-content: flex-end; /* align-items: flex-end; */}
 
-.other .msg {order: 1; border-bottom-right-radius: 0px; box-shadow: 1px 2px 0px #eef8ff; margin-right: 5px; margin-bottom: 10px;}
+.other_cont {justify-content: flex-end; /* align-items: flex-end; */}
+
+.other .msg {order: 1; /* border-bottom-right-radius: 0px; */ box-shadow: 1px 2px 0px #eef8ff; margin-right: 5px;}
+
+.other_cont .msg {margin-right: 55px;}
 
 .other .avatar {order: 2;}
 
-.other .avatar:after {content: ""; position: relative; display: inline-block; bottom: 30px; right: 5px; width: 0px; height: 0px; border: 5px solid #eef8ff; border-right-color: transparent; border-top-color: transparent; box-shadow: 0px 2px 0px #eef8ff;}
+.other .avatar:after {content: ""; position: absolute; display: inline-block; top: 10px; right: 45px; width: 0px; height: 0px; border: 5px solid #eef8ff; border-right-color: transparent; border-bottom-color: transparent; box-shadow: 0px 0px 0px #eef8ff;}
 
 .msg {background: #eef8ff; min-width: 50px; padding: 10px; border-radius: 5px; word-break: break-all;}
 
