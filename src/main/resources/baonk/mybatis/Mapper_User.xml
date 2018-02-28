@@ -140,11 +140,11 @@
 		</if>
 	</select>
 	
-	<delete id="deleteUser" parameterType="userVO">
+	<delete id="deleteUser" parameterType="UserVO">
 		delete from user where userid = #{userid} and companyid = #{companyid} and tenantid = #{tenantid}
 	</delete>
 	
-	<insert id="saveUser" parameterType="userVO">
+	<insert id="saveUser" parameterType="UserVO">
 		insert into user (
 			companyid,       tenantid,          userid,      active,       birthday,
 			departmentid,    position,          email,       image,        lastlogin,
@@ -161,7 +161,7 @@
 		)
 	</insert>
 	
-	<update id="updateUser" parameterType="userVO">
+	<update id="updateUser" parameterType="UserVO">
 		update user
 		set
 			active         = #{active},

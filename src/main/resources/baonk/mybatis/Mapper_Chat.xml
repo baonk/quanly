@@ -197,4 +197,16 @@
 		)
 	</insert>
 	
+	<insert id="insertLastMessage" parameterType="ConversationVO">
+		insert into conversation (
+			user_id,     related_id,      last_message,      lastChated,       tenant_id
+		)
+		values (
+			#{userId},   #{relatedId},    #{lastMessage},    #{lastChated},    #{tenantId}
+		)
+		on duplicate key update
+			last_message = #{lastMessage},
+			lastChated   = #{lastChated}
+	</insert>
+	
 </mapper>

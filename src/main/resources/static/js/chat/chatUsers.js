@@ -80,7 +80,7 @@ function displayUserList(result) {
 			userList.appendChild(divLine);
 			
 			if (i == 0) {
-				divCnt.textContent   = "";
+				divCnt.textContent   = "0";
 				divCnt.style.display = "none";
 				displayConversation(divLine);
 			}
@@ -155,13 +155,13 @@ function processUnreadCnt(cnt) {
 }
 
 function displayConversation(obj) {
+	//Clear unread message
+	clearUnreadMessage(obj);
+	
 	var userId   = obj.getAttribute("userId");
 	var userName = obj.getAttribute("userName");
 	chatUser     = userId;
 	conType      = 'SINGLE';
-	
-	//Mai code tiep
-	clearUnreadMessage();
 	
 	document.getElementById("chatHeader").textContent = userName;
 	
@@ -187,8 +187,10 @@ function displayConversation(obj) {
 	});
 }
 
-function clearUnreadMessage() {
-	
+function clearUnreadMessage(obj) {
+	var divCnt = obj.getElementsByClassName("count")[0];
+	divCnt.textContent   = "0";
+	divCnt.style.display = "none";
 }
 
 

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.chat.vo.ChatUserVO;
+import com.nv.baonk.chat.vo.ConversationVO;
 
 @Mapper
 public interface ChatMapper {
@@ -16,4 +17,5 @@ public interface ChatMapper {
 	public String getMaxMessageId(@Param("tenantId") int tenantId);
 	public void saveMessage(ChatMessageVO messageVO);
 	public List<ChatUserVO> getAllGroupChat(@Param("userId") String userId, @Param("deptId") String departmentId, @Param("tenantId") int tenantId);
+	public void insertLastMessage(ConversationVO conversation);
 }

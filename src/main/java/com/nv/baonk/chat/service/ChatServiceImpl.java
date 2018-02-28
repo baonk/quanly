@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.nv.baonk.chat.dao.ChatMapper;
 import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.chat.vo.ChatUserVO;
+import com.nv.baonk.chat.vo.ConversationVO;
 
 @Service("ChatService")
 public class ChatServiceImpl implements ChatService {
@@ -50,6 +51,11 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public List<ChatUserVO> getAllGroupChat(String userId, String departmentId, int tenantId) throws Exception {
 		return chatMapper.getAllGroupChat(userId, departmentId, tenantId);
+	}
+
+	@Override
+	public void insertLastMessage(ConversationVO conversation) throws Exception {
+		chatMapper.insertLastMessage(conversation);
 	}
 
 }

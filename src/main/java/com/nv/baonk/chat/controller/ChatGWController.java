@@ -17,6 +17,7 @@ import com.nv.baonk.chat.service.ChatService;
 import com.nv.baonk.chat.vo.ChatMessageSimpleVO;
 import com.nv.baonk.chat.vo.ChatMessageVO;
 import com.nv.baonk.chat.vo.ChatUserVO;
+import com.nv.baonk.chat.vo.ConversationVO;
 import com.nv.baonk.common.CommonUtil;
 import com.nv.baonk.login.service.UserService;
 import com.nv.baonk.login.vo.Role;
@@ -117,6 +118,17 @@ public class ChatGWController {
 				User friend = userService.findUserByUseridAndTenantid(friendId, tenantId);
 				result.put("friend", friend);
 			}
+			else {
+				//Clear unread messages
+				ConversationVO conversation = new ConversationVO();
+				conversation.setLastMessage(listMessages.get(0).getMessageId());
+				conversation.setUserId(userId);
+				conversation.setRelatedId(friendId);
+				conversation.setTenantId(tenantId);
+				conversation.setLastChated(listMessages.get(0).getCreatedTime());
+				chatSerivce.insertLastMessage(conversation);
+			}
+			
 			result.put("status", "ok");
 			result.put("code", 0);
 			result.put("data", listMessages);
