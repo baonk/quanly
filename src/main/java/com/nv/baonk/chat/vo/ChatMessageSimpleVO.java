@@ -10,7 +10,6 @@ public class ChatMessageSimpleVO {
 	private String receiver;
 	private int tenantId;
 	private ReceiverType receiverType;
-	private int clusterId;
 	public enum MessageType  {CHAT, JOIN, LEAVE}
 	public enum ContentType  {TEXT, IMAGE, STICKER, FILE}
 	public enum ReceiverType {SINGLE, GROUP}
@@ -53,14 +52,6 @@ public class ChatMessageSimpleVO {
 
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
-	}
-
-	public int getClusterId() {
-		return clusterId;
-	}
-
-	public void setClusterId(int clusterId) {
-		this.clusterId = clusterId;
 	}
 
 	public ReceiverType getReceiverType() {

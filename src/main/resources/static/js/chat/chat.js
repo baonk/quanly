@@ -32,7 +32,6 @@ function sendMessage() {
 		contentType  : 'TEXT',
 		fileName     : '',
 		filePath     : '',
-		clusterId    : messageIdx,
 		receiverType : conType,
 		type         : 'CHAT',
 		tenantId     : tenantId
@@ -105,6 +104,10 @@ function displayMessage(result, friendInf) {
 				}
 			}
 		}
+		
+		//Scroll to chat list
+		var objDiv = document.getElementById("bnkChatTbl");
+		objDiv.scrollTop = objDiv.scrollHeight;
 	}
 }
 
@@ -146,7 +149,7 @@ function displaySticker(obj) {
 	document.getElementById("emoticonPanel").style.display = "none";
 	document.getElementById("bnkEmoticon").style.backgroundImage = "url('/images/chat/emo3.png')";
 	
-	if (lastChattedUser == null || lastChattedUser != currentUser) {
+/*	if (lastChattedUser == null || lastChattedUser != currentUser) {
 		showSelfChat1(actualUrl, 2);
 	}
 	else {
@@ -156,8 +159,21 @@ function displaySticker(obj) {
 		else {
 			showSelfChat1(actualUrl, 2);
 		}
-	}
+	}*/
 	
+	var chatMessage = {
+		sender       : currentUser,
+		receiver     : chatUser,
+		content      : actualUrl,
+		contentType  : 'STICKER',
+		fileName     : '',
+		filePath     : '',
+		receiverType : conType,
+		type         : 'CHAT',
+		tenantId     : tenantId
+	};
+	
+	stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
 }
 
 function getChatTime() {
@@ -249,7 +265,7 @@ function showChat2(jsonMessage, type, chatType) {
 		case 1:
 			var divTimeElmt = document.createElement("div");
 			divTimeElmt.setAttribute("class", "day");
-			divTimeElmt.textContent(getChatTime());
+			divTimeElmt.textContent = getChatTime();
 			mainOlElmt.appendChild(divTimeElmt);
 			showChat1(jsonMessage, type, chatType);
 			break;
@@ -269,7 +285,7 @@ function showChat2(jsonMessage, type, chatType) {
 			}
 			else {
 				var imgElmt = document.createElement("img");
-				imgElmt.src = textValue;
+				imgElmt.src = jsonMessage["content"];
 				if (type == 2) {
 					imgElmt.className = "bnkSticker";
 				}

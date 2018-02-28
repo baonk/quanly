@@ -966,7 +966,6 @@ public class CommonUtil {
 		String time                = formatter.format(date);
 		ChatMessageVO messageVO    = new ChatMessageVO();
 		
-		messageVO.setClusterId(message.getClusterId());
 		messageVO.setContent(message.getContent());
 		messageVO.setReceiverId(message.getReceiver());
 		messageVO.setFileName(message.getFileName());

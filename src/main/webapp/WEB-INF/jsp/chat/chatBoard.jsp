@@ -15,6 +15,8 @@
 	<script src="/js/chat/chat.js"></script>
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="<spring:message code='chat.js'/>"></script>
+	
 	<script type="text/javascript">
 		var currentUser = "<c:out value="${userId}"/>";
 		var tenantId    = "<c:out value="${tenantId}"/>";
@@ -26,9 +28,8 @@
 		var strLang40   = "<spring:message code = 'chat.t4'/>";
 		var stompClient = null;
 		var chatUser    = null;
-		var cluster     = null;
-		var messageIdx  = 1;
 		var conType     = null;
+		var messageIdx  = 1;
 
 		window.onload = function () {
 			connect();
@@ -83,6 +84,9 @@
 					showChat1(message, type, "other");
 				}
 			}
+			
+			//Scroll to chat list
+			chatTbl.scrollTop = chatTbl.scrollHeight;
 		}
 	</script>
 	
@@ -605,7 +609,6 @@
 												</tr>
 												<tr style="width:100%; height:45px;">
 													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/49.gif);" onclick="displaySticker(this);"></div></td>
-													<td><div class="emoticon" style="background-image: url(/images/emoticon/bee/50.gif);" onclick="displaySticker(this);"></div></td>
 												</tr>
 											</table>
 										</div>

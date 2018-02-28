@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class ChatMessageVO implements Serializable{
 	private static final long serialVersionUID = 1234564573457L;
 	private String messageId;
-	private int clusterId;
 	private String content;
 	private String fileName;
 	private String filePath;
@@ -25,14 +24,6 @@ public class ChatMessageVO implements Serializable{
 
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
-	}
-
-	public int getClusterId() {
-		return clusterId;
-	}
-
-	public void setClusterId(int clusterId) {
-		this.clusterId = clusterId;
 	}
 
 	public String getFileName() {

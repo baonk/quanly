@@ -20,15 +20,19 @@
 
 .bnkCenter {flex-grow: 1; display:flex; flex-direction: column;}
 
-.bnkChatContent {flex-grow: 1; display:flex; flex-direction: column;}
+.bnkChatContent {flex-grow: 1; display:flex; flex-direction: column; position: relative;}
 
-.bnkChatMessages {flex-grow: 1; background: #e5e5e5; font-family: 'Lato', sans-serif;}
+.bnkChatMessages {flex-grow: 1; background: #e5e5e5; font-family: 'Lato', sans-serif; overflow: auto;}
 
 .chatImage {min-height: 35px; min-width: 35px; height: 35px; width: 35px; border-radius: 50%; margin: 2.5px 0px 2.5px 0px; cursor: pointer;}
 
 .chatImage2 {min-height: 35px; min-width: 35px; height: 35px; width: 35px; border-radius: 50%; margin: 0px 0px 0px 0px; cursor: pointer;}
 
 .avatarImage {min-height: 45px; min-width: 45px; height: 45px; width: 45px; border-radius: 50%; margin: 2.5px 0px 2.5px 0px;}
+
+.noImage {min-height: 40px; min-width: 85px; height: 40px; width: 85px; margin: 5px;}
+
+.notFoundTxt {line-height: 50px; height: 50px; margin-left: 10px; flex-grow: 1; font-weight: bold; color: #0000ffcc;}
 
 .statusImg {min-height: 10px; min-width: 10px; height: 10px; width: 10px; border-radius: 50%; margin: 20px 5px;}
 
@@ -100,7 +104,7 @@ table, th, td {border-collapse: collapse; empty-cells: show; padding: 0px; margi
 
 .chat .avatar img {width: 50px; height: 50px; border-radius: 100%; -webkit-border-radius: 100%; -moz-border-radius: 100%; -ms-border-radius: 100%; background-color: rgba(255,255,255,0.9); -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 
-.chat .day {position: relative; display: block; text-align: center; color: rgb(147, 58, 183); height: 20px; text-shadow: 7px 0px 0px #e5e5e5, 6px 0px 0px #e5e5e5, 5px 0px 0px #e5e5e5, 4px 0px 0px #e5e5e5, 3px 0px 0px #e5e5e5, 2px 0px 0px #e5e5e5, 1px 0px 0px #e5e5e5, 1px 0px 0px #e5e5e5, 0px 0px 0px #e5e5e5, -1px 0px 0px #e5e5e5, -2px 0px 0px #e5e5e5, -3px 0px 0px #e5e5e5, -4px 0px 0px #e5e5e5, -5px 0px 0px #e5e5e5, -6px 0px 0px #e5e5e5, -7px 0px 0px #e5e5e5; box-shadow: inset 20px 0px 0px #e5e5e5, inset -20px 0px 0px #e5e5e5, inset 0px -2px 0px #000; line-height: 38px; margin-top: 5px; margin-bottom: 20px; cursor: default; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
+.chat .day {position: relative; display: block; text-align: center; color: #311b92; height: 20px; text-shadow: 7px 0px 0px #e5e5e5, 6px 0px 0px #e5e5e5, 5px 0px 0px #e5e5e5, 4px 0px 0px #e5e5e5, 3px 0px 0px #e5e5e5, 2px 0px 0px #e5e5e5, 1px 0px 0px #e5e5e5, 1px 0px 0px #e5e5e5, 0px 0px 0px #e5e5e5, -1px 0px 0px #e5e5e5, -2px 0px 0px #e5e5e5, -3px 0px 0px #e5e5e5, -4px 0px 0px #e5e5e5, -5px 0px 0px #e5e5e5, -6px 0px 0px #e5e5e5, -7px 0px 0px #e5e5e5; box-shadow: inset 20px 0px 0px #e5e5e5, inset -20px 0px 0px #e5e5e5, inset 0px -1.5px 0px #ff6600; line-height: 38px; margin-top: 5px; margin-bottom: 20px; cursor: default; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 
 .chat .notification {position: relative; display: inherit; text-align: center; font-size: 13px; color: #337ab7; background: #fcf8e3a8; line-height: 30px; border-radius: 100px; margin: 7px 25%; height: 30px; width: 50%; box-shadow: 0px 1px 0px rgba(0,0,0,.05), 0px -1px 0px rgba(0,0,0,.05), inset 0px 1px 0px rgba(255,255,255,.02), inset 0px -1px 0px rgba(255,255,255,.02); text-shadow: 0px -1px 0px rgba(0,0,0,.1), 0px 1px 0px rgba(255,255,255,.05); cursor: default; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; transition: all .2s cubic-bezier(0.565, -0.260, 0.255, 1.410);}
 
@@ -171,7 +175,7 @@ emoji.shit {background-image: url(https://i.imgur.com/H5Jba8r.png);}
 @-webikt-keyframes pulse {from { opacity: 0; } to { opacity: 0.5; }}
 
 /* T Y P E */
-.typezone {bottom: 0px; left: 0px; right: 0px; width: 100%; height: 50px; z-index: 99; background: #eee; border: none; outline: none; display: flex;}
+.typezone {position: absolute; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 50px; z-index: 99; background: #eee; border: none; outline: none; display: flex;}
 
 .bnkChatInput {flex-grow: 1; position: relative;}
 

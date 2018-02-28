@@ -38,9 +38,19 @@ function displayUserList(result) {
 	}
 	
 	if (result == null || result.length == 0) {
-		var divLine  = document.createElement("div");
-		divLine.textContent = "<spring:message code='chat.t2'/>";
-		userList.appendChild(divLine);
+		var divElmt   = document.createElement("div");
+		var divLine   = document.createElement("div");
+		var imageElmt = document.createElement("img");
+		
+		imageElmt.setAttribute("class", "noImage");
+		imageElmt.src = "/images/chat/noResult.png";
+		divLine.textContent = chatMessage1;
+		divLine.setAttribute("class", "notFoundTxt");
+		divElmt.setAttribute("class", "userChat");
+		
+		divElmt.appendChild(imageElmt);
+		divElmt.appendChild(divLine);
+		userList.appendChild(divElmt);
 	}
 	else {
 		for (var i = 0; i < result.length; i++) {
@@ -95,9 +105,19 @@ function displayGroupList(result) {
 	}
 	
 	if (result == null || result.length == 0) {
-		var divLine  = document.createElement("div");
-		divLine.textContent = "<spring:message code='chat.t5'/>";
-		groupList.appendChild(divLine);
+		var divElmt   = document.createElement("div");
+		var divLine   = document.createElement("div");
+		var imageElmt = document.createElement("img");
+		
+		imageElmt.setAttribute("class", "noImage");
+		imageElmt.src = "/images/chat/noResult.png";
+		divLine.textContent = chatMessage2;
+		divLine.setAttribute("class", "notFoundTxt");
+		divElmt.setAttribute("class", "userChat");
+		
+		divElmt.appendChild(imageElmt);
+		divElmt.appendChild(divLine);
+		groupList.appendChild(divElmt);
 	}
 	else {
 		for (var i = 0; i < result.length; i++) {

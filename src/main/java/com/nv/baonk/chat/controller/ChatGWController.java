@@ -99,8 +99,8 @@ public class ChatGWController {
 	public JSONObject getUserList(@PathVariable(value="userid") String userId, @PathVariable(value="friendid") String friendId, @PathVariable String mode, HttpServletRequest request) {
 		int tenantId      = request.getParameter("tenantId")  != null ? Integer.parseInt(request.getParameter("tenantId"))  : -1;
 		int currIdx       = request.getParameter("currIndex") != null ? Integer.parseInt(request.getParameter("currIndex")) :  1;
-		int blockSize     = 10;
-		int endPoint      = currIdx * blockSize;
+		int blockSize     = 40;
+		int endPoint      = currIdx * blockSize + 1;
 		JSONObject result = new JSONObject();
 		
 		logger.debug("UserId: " + userId + " || tenantId: " + tenantId + " || Friend Id: " + friendId + " || mode: " + mode);
@@ -143,7 +143,7 @@ public class ChatGWController {
 	}
 	
 	@MessageMapping("/sendMessage")
-	public void greeting(@Payload ChatMessageSimpleVO message) throws Exception {
+	public void getSendMessage(@Payload ChatMessageSimpleVO message) throws Exception {
 		ChatMessageVO messageVO = commonUtil.getChatMessage(message);
 		chatSerivce.saveMessage(messageVO);
 		
